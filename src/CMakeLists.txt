@@ -1,6 +1,7 @@
 add_executable(main
         main.cpp
         game.cpp
+        field.cpp
 )
 
 target_include_directories(main PRIVATE ${PROJECT_SOURCE_DIR}/include)
