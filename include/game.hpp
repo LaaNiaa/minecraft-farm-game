@@ -1,6 +1,10 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <vector>
+
+#include "const.hpp"
+#include "field.hpp"
 
 class Game {
     public:
@@ -9,4 +13,12 @@ class Game {
 
     private:
         sf::RenderWindow window;
+
+        struct Textures {
+            sf::Texture Grass_Block;
+        } textures;
+
+        void processEvents();
+        void loadTextures();
+        void render();
 };
