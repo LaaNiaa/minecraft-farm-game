@@ -7,6 +7,7 @@ Game::Game()
     window.setFramerateLimit(60);
 
     loadTextures();
+    initializeFields();
 }
 
 void Game::loadTextures() {
@@ -15,12 +16,25 @@ void Game::loadTextures() {
     }
 }
 
+void Game::initializeFields() {
+    float startX = (WINDOW_WIDTH - GRID_WIDTH * TILE_SIZE) / 2.0f;
+    float startY = (WINDOW_HEIGHT - GRID_HEIGHT * TILE_SIZE) / 2.0f;
+
+    fields.resize(GRID_HEIGHT, std::vector<Field>(GRID_WIDTH));
+
+    for (int y = 0; y < GRID_HEIGHT; y++) {
+        for (int x = 0; x < GRID_WIDTH; x++) {
+            fields[y][x].setPosition(startX + x * TILE_SIZE, startY + y * TILE_SIZE);
+            fields[y][x].setBlockType(BlockType::GRASS_BLOCK);
+            fields[y][x].setTexture(textures.Grass_Block);
+        }
+    }
+}
+
 void Game::run() {
     while (window.isOpen()) {
         processEvents();
         render();
-
-        sf::sleep(sf::seconds(10));
     }
 }
 
@@ -36,8 +50,15 @@ void Game::processEvents() {
 void Game::render() {
     window.clear();
 
-    sf::Sprite sprite(textures.Grass_Block);
-    window.draw(sprite);
+    renderFields();
 
     window.display();
+}
+
+void Game::renderFields() {
+    for (int y = 0; y < GRID_HEIGHT; y++) {
+        for (int x = 0; x < GRID_WIDTH; x++) {
+            fields[y][x].render(window);
+        }
+    }
 }

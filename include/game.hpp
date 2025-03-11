@@ -13,6 +13,7 @@ class Game {
 
     private:
         sf::RenderWindow window;
+        std::vector<std::vector<Field>> fields;
 
         struct Textures {
             sf::Texture Grass_Block;
