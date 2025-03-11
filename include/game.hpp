@@ -18,7 +18,11 @@ class Game {
             sf::Texture Grass_Block;
         } textures;
 
-        void processEvents();
         void loadTextures();
+        void initializeFields();
+
+        void processEvents();
+
         void render();
+        void renderFields();
 };
