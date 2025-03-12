@@ -1,19 +1,24 @@
 #include "../include/game.hpp"
+#include "../include/map_loader.hpp"
 
 #include <iostream>
+#include <map>
 
 Game::Game()
-    : window(sf::RenderWindow(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Minecraft Farm Game")) {
+    : window(sf::RenderWindow(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Minecraft Farm Game")), mapFilePath("../../maps/default_map.txt") {
     window.setFramerateLimit(60);
 
     loadTextures();
     initializeFields();
+    loadMap(mapFilePath);
 }
 
 void Game::loadTextures() {
     if (!textures.Grass_Block.loadFromFile("../../textures/Grass_Block.png")) {
         std::cerr << "Failed to load Grass_Block texture" << std::endl;
     }
+
+    blockTextures.push_back(textures.Grass_Block);
 }
 
 void Game::initializeFields() {
@@ -25,10 +30,20 @@ void Game::initializeFields() {
     for (int y = 0; y < GRID_HEIGHT; y++) {
         for (int x = 0; x < GRID_WIDTH; x++) {
             fields[y][x].setPosition(startX + x * TILE_SIZE, startY + y * TILE_SIZE);
-            fields[y][x].setBlockType(BlockType::GRASS_BLOCK);
-            fields[y][x].setTexture(textures.Grass_Block);
+            fields[y][x].setBlockType(BlockType::NONE);
+            fields[y][x].setCropState(CropState::EMPTY);
         }
     }
+}
+
+void Game::loadMap(const std::string& filename) {
+    std::vector<std::vector<int>> mapData = MapLoader::loadMapFromFile(filename);
+
+    if (mapData.empty()) {
+        std::cerr << "Failed to load map from file: " << filename << std::endl;
+    }
+
+    MapLoader::applyMapToFields(fields, mapData, blockTextures);
 }
 
 void Game::run() {
