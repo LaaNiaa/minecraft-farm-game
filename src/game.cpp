@@ -22,14 +22,20 @@ void Game::loadTextures() {
 }
 
 void Game::initializeFields() {
-    float startX = (WINDOW_WIDTH - GRID_WIDTH * TILE_SIZE) / 2.0f;
-    float startY = (WINDOW_HEIGHT - GRID_HEIGHT * TILE_SIZE) / 2.0f;
+    float centerX = WINDOW_WIDTH / 2.0f;
+    float centerY = WINDOW_HEIGHT / 2.0f;
+
+    float isoTileWidth = TILE_SIZE;
+    float isoTileHeight = TILE_SIZE / 2.0f;
 
     fields.resize(GRID_HEIGHT, std::vector<Field>(GRID_WIDTH));
 
     for (int y = 0; y < GRID_HEIGHT; y++) {
         for (int x = 0; x < GRID_WIDTH; x++) {
-            fields[y][x].setPosition(startX + x * TILE_SIZE, startY + y * TILE_SIZE);
+            float isoX = centerX + (x - y) * isoTileWidth / 2.0f;
+            float isoY = centerY + (x + y) * isoTileHeight / 2.0f;
+
+            fields[y][x].setPosition(isoX, isoY);
             fields[y][x].setBlockType(BlockType::NONE);
             fields[y][x].setCropState(CropState::EMPTY);
         }

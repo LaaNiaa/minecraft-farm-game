@@ -30,6 +30,8 @@ void Field::setTexture(const sf::Texture& texture) {
     float scaleX = static_cast<float>(TILE_SIZE) / texture.getSize().x;
     float scaleY = static_cast<float>(TILE_SIZE) / texture.getSize().y;
     blockSprite->setScale(sf::Vector2f(scaleX, scaleY));
+
+    blockSprite->setOrigin(sf::Vector2f(texture.getSize().x / 2.0f, texture.getSize().y));
 }
 
 void Field::render(sf::RenderWindow& window) {
