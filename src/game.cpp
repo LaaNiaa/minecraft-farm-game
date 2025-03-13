@@ -25,8 +25,8 @@ void Game::initializeFields() {
     float centerX = WINDOW_WIDTH / 2.0f;
     float centerY = WINDOW_HEIGHT / 2.0f - TILE_SIZE * 1.5;
 
-    float isoTileWidth = TILE_SIZE - 10;
-    float isoTileHeight = (TILE_SIZE / 2.0f) - 10;
+    float isoTileWidth = TILE_SIZE - (TILE_SIZE / 90.0);
+    float isoTileHeight = (TILE_SIZE / 2.0f) - (TILE_SIZE / 15.0);
 
     fields.resize(GRID_HEIGHT, std::vector<Field>(GRID_WIDTH));
 
