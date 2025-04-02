@@ -27,9 +27,10 @@ void Field::setTexture(const sf::Texture& texture) {
 
     blockSprite->setPosition(position);
 
-    float effectiveWidth = texture.getSize().x - 10;
+    float effectiveWidth = texture.getSize().x - 32;
+    float effectiveHeight = texture.getSize().y - 32;
     float scaleX = static_cast<float>(TILE_SIZE) / effectiveWidth;
-    float scaleY = static_cast<float>(TILE_SIZE) / texture.getSize().y;
+    float scaleY = static_cast<float>(TILE_SIZE) / effectiveHeight;
     blockSprite->setScale(sf::Vector2f(scaleX, scaleY));
 
     blockSprite->setOrigin(sf::Vector2f(texture.getSize().x / 2.0f, texture.getSize().y));
