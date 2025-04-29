@@ -8,6 +8,10 @@ Game::Game()
     : window(sf::RenderWindow(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Minecraft Farm Game")), mapFilePath("../../maps/default_map.txt") {
     window.setFramerateLimit(60);
 
+    gameView.setSize(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
+    gameView.setCenter(sf::Vector2f(WINDOW_WIDTH / 2.0f, WINDOW_HEIGHT / 2.0f));
+    window.setView(gameView);
+
     loadTextures();
     initializeFields();
     loadMap(mapFilePath);
@@ -22,6 +26,11 @@ void Game::loadTextures() {
 }
 
 void Game::initializeFields() {
+    fields.resize(GRID_HEIGHT, std::vector<Field>(GRID_WIDTH));
+    updateFiledPositions();
+}
+
+void Game::updateFiledPositions() {
     float centerX = WINDOW_WIDTH / 2.0f;
     float centerY = WINDOW_HEIGHT / 2.0f - TILE_SIZE * 1.5;
 
@@ -59,12 +68,21 @@ void Game::run() {
     }
 }
 
+void Game::handleWindowResize(unsigned int width, unsigned int height) {
+    gameView.setCenter(sf::Vector2f(width / 2.0f, height / 2.0f));
+    gameView.setSize(sf::Vector2f(width, height));
+    window.setView(gameView);
+}
+
 void Game::processEvents() {
     while (const std::optional event = window.pollEvent())
     {
         if (event->is<sf::Event::Closed>())
         {
             window.close();
+        }
+        else if (event->is<sf::Event::Resized>()) {
+            handleWindowResize(event->getIf<sf::Event::Resized>()->size.x, event->getIf<sf::Event::Resized>()->size.y);
         }
     }
 }

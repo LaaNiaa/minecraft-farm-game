@@ -16,6 +16,7 @@ class Game {
         sf::RenderWindow window;
         std::vector<std::vector<Field>> fields;
         std::string mapFilePath;
+        sf::View gameView;
 
         struct Textures {
             sf::Texture Grass_Block;
@@ -26,8 +27,10 @@ class Game {
         void loadTextures();
         void initializeFields();
         void loadMap(const std::string& filename);
+        void updateFiledPositions();
 
         void processEvents();
+        void handleWindowResize(unsigned int width, unsigned int height);
 
         void render();
         void renderFields();
