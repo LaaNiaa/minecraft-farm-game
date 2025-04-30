@@ -11,6 +11,8 @@ Game::Game()
     gameView.setSize(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
     gameView.setCenter(sf::Vector2f(WINDOW_WIDTH / 2.0f, WINDOW_HEIGHT / 2.0f));
     window.setView(gameView);
+    zoomLevel = 1.0f;
+    zoomLevelLimit = zoomLevel;
 
     loadTextures();
     initializeFields();
@@ -74,6 +76,11 @@ void Game::handleWindowResize(unsigned int width, unsigned int height) {
     window.setView(gameView);
 }
 
+void Game::handleZoom(float zoomLevel) {
+    gameView.zoom(zoomLevel);
+    window.setView(gameView);
+}
+
 void Game::processEvents() {
     while (const std::optional event = window.pollEvent())
     {
@@ -83,6 +90,24 @@ void Game::processEvents() {
         }
         else if (event->is<sf::Event::Resized>()) {
             handleWindowResize(event->getIf<sf::Event::Resized>()->size.x, event->getIf<sf::Event::Resized>()->size.y);
+        }
+        else if (const auto* mouseWheelScrolled = event->getIf<sf::Event::MouseWheelScrolled>()) {
+            if (mouseWheelScrolled->delta <= 0) {
+                if (zoomLevelLimit < zoomLevel * 1.5f) {
+                    handleZoom(zoomLevel + 0.1f);
+                    zoomLevelLimit += 0.1f;
+                    std::cout << "zoom level: " << zoomLevelLimit << std::endl;
+                    std::cout << "Delta: " << mouseWheelScrolled->delta << std::endl;
+                }
+            }
+            else {
+                if (zoomLevelLimit > zoomLevel * 0.5f) {
+                    handleZoom(zoomLevel - 0.1f);
+                    zoomLevelLimit -= 0.1f;
+                    std::cout << "zoom level: " << zoomLevelLimit << std::endl;
+                    std::cout << "Delta: " << mouseWheelScrolled->delta << std::endl;
+                }
+            }
         }
     }
 }

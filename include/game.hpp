@@ -17,6 +17,8 @@ class Game {
         std::vector<std::vector<Field>> fields;
         std::string mapFilePath;
         sf::View gameView;
+        float zoomLevel;
+        float zoomLevelLimit;
 
         struct Textures {
             sf::Texture Grass_Block;
@@ -31,6 +33,7 @@ class Game {
 
         void processEvents();
         void handleWindowResize(unsigned int width, unsigned int height);
+        void handleZoom(float zoomLevel);
 
         void render();
         void renderFields();
