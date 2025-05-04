@@ -71,8 +71,8 @@ void Game::run() {
 }
 
 void Game::handleWindowResize(unsigned int width, unsigned int height) {
-    gameView.setCenter(sf::Vector2f(width / 2.0f, height / 2.0f));
     gameView.setSize(sf::Vector2f(width, height));
+    handleZoom(zoomLevel);
     window.setView(gameView);
 }
 
