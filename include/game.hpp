@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <string>
+#include <cmath>
 
 #include "const.hpp"
 #include "field.hpp"
@@ -18,7 +19,7 @@ class Game {
         std::string mapFilePath;
         sf::View gameView;
         float zoomLevel;
-        float zoomLevelLimit;
+        float zoomStep;
 
         struct Textures {
             sf::Texture Grass_Block;
