@@ -47,6 +47,7 @@ void Game::updateFiledPositions() {
             float isoY = centerY + (x + y) * isoTileHeight / 2.0f;
 
             fields[y][x].setPosition(isoX, isoY);
+            fields[y][x].setTopCenter(isoX, isoY);
             fields[y][x].setBlockType(BlockType::NONE);
             fields[y][x].setCropState(CropState::EMPTY);
         }
@@ -81,6 +82,14 @@ void Game::handleZoom(float zoomLevel) {
     window.setView(gameView);
 }
 
+void Game::mouseFocus(float mousePosX, float mousePosY) {
+    sf::Vector2f center = fields[0][0].getTopCenter();
+
+    if (std::abs(mousePosX - center.x) / ( TILE_SIZE / 2.0f) + std::abs(mousePosY - center.y) / ( ((TILE_SIZE + 16) * 0.45) / 2.0f) <= 1) {
+        std::cout << "Mouse focus" << std::endl;
+    }
+}
+
 void Game::processEvents() {
     while (const std::optional event = window.pollEvent())
     {
@@ -104,6 +113,11 @@ void Game::processEvents() {
                     handleZoom(powf(zoomStep, -1));
                 }
             }
+        }
+        else if (const auto* mouseMoved = event->getIf<sf::Event::MouseMoved>()) {
+            sf::Vector2i pixelPos = sf::Mouse::getPosition(window);
+            sf::Vector2f worldPos = window.mapPixelToCoords(pixelPos);
+            mouseFocus(worldPos.x, worldPos.y);
         }
     }
 }

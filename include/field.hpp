@@ -8,6 +8,7 @@ class Field {
     public:
         Field();
         void setPosition(float x, float y);
+        void setTopCenter(float x, float y);
         void setBlockType(BlockType type);
         void setCropState(CropState state);
         void setTexture(const sf::Texture& texture);
@@ -15,6 +16,7 @@ class Field {
         void render(sf::RenderWindow& window);
 
         sf::Vector2f getPosition() const;
+        sf::Vector2f getTopCenter() const;
         BlockType getBlockType() const;
         CropState getCropState() const;
 
@@ -22,6 +24,7 @@ class Field {
         std::optional<sf::Sprite> blockSprite;
 
         sf::Vector2f position;
+        sf::Vector2f topCenter;
         BlockType blockType;
         CropState cropState;
 };

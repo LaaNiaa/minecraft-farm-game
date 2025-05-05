@@ -35,6 +35,7 @@ class Game {
         void processEvents();
         void handleWindowResize(unsigned int width, unsigned int height);
         void handleZoom(float zoomLevel);
+        void mouseFocus(float mousePosX, float mousePosY);
 
         void render();
         void renderFields();
