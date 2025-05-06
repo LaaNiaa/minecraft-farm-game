@@ -18,11 +18,6 @@ void Field::setTopCenter(float x, float y) {
     topCenter = sf::Vector2f(x, y - ((TILE_SIZE + 16) * 0.78f));
 }
 
-void Field::setID(int y, int x) {
-    fieldID = y * GRID_WIDTH + x;
-}
-
-
 void Field::setBlockType(BlockType type) {
     blockType = type;
 }
@@ -75,10 +70,6 @@ sf::Vector2f Field::getPosition() const {
 
 sf::Vector2f Field::getTopCenter() const {
     return topCenter;
-}
-
-int Field::getID() const {
-    return fieldID;
 }
 
 BlockType Field::getBlockType() const {
