@@ -91,7 +91,7 @@ void Game::mouseFocus(float mousePosX, float mousePosY) {
     sf::Vector2f center = fields[0][0].getTopCenter();
 
     if (std::abs(mousePosX - center.x) / ( TILE_SIZE / 2.0f) + std::abs(mousePosY - center.y) / ( ((TILE_SIZE + 16) * 0.45) / 2.0f) <= 1) {
-        std::cout << "Mouse focus" << std::endl;
+        fields[0][0].setFocusTexture(textures.Focused, window);
     }
 }
 

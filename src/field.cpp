@@ -45,6 +45,20 @@ void Field::setTexture(const sf::Texture& texture) {
     blockSprite->setOrigin(sf::Vector2f(texture.getSize().x / 2.0f, texture.getSize().y));
 }
 
+void Field::setFocusTexture(const sf::Texture& texture, sf::RenderWindow& window) {
+    focusSprite = sf::Sprite(texture);
+
+    focusSprite->setPosition(position);
+
+    float effectiveWidth = texture.getSize().x - 32;
+    float effectiveHeight = texture.getSize().y - 32;
+    float scaleX = static_cast<float>(TILE_SIZE) / effectiveWidth;
+    float scaleY = static_cast<float>(TILE_SIZE) / effectiveHeight;
+    focusSprite->setScale(sf::Vector2f(scaleX, scaleY));
+
+    focusSprite->setOrigin(sf::Vector2f(texture.getSize().x / 2.0f, texture.getSize().y));
+}
+
 void Field::render(sf::RenderWindow& window) {
     if (blockType != BlockType::NONE && blockSprite.has_value()) {
         window.draw(*blockSprite);

@@ -12,6 +12,7 @@ class Field {
         void setBlockType(BlockType type);
         void setCropState(CropState state);
         void setTexture(const sf::Texture& texture);
+        void setFocusTexture(const sf::Texture& texture, sf::RenderWindow& window);
 
         void render(sf::RenderWindow& window);
 
@@ -22,6 +23,7 @@ class Field {
 
     private:
         std::optional<sf::Sprite> blockSprite;
+        std::optional<sf::Sprite> focusSprite;
 
         sf::Vector2f position;
         sf::Vector2f topCenter;
