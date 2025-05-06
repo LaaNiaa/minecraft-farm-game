@@ -24,7 +24,12 @@ void Game::loadTextures() {
         std::cerr << "Failed to load Grass_Block texture" << std::endl;
     }
 
+    if (!textures.Focused.loadFromFile("../../textures/Focused.png")) {
+        std::cerr << "Failed to load Focused texture" << std::endl;
+    }
+
     blockTextures.push_back(textures.Grass_Block);
+    blockTextures.push_back(textures.Focused);
 }
 
 void Game::initializeFields() {

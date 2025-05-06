@@ -22,6 +22,7 @@ class Game {
         float zoomStep;
 
         struct Textures {
+            sf::Texture Focused;
             sf::Texture Grass_Block;
         } textures;
 
