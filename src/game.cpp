@@ -88,9 +88,16 @@ void Game::handleZoom(float zoomLevel) {
 }
 
 void Game::mouseFocus(float mousePosX, float mousePosY) {
+    for (int y = 0; y < GRID_HEIGHT; y++) {
+        for (int x = 0; x < GRID_WIDTH; x++) {
+            fields[y][x].isHovered = false;
+        }
+    }
+
     sf::Vector2f center = fields[0][0].getTopCenter();
 
     if (std::abs(mousePosX - center.x) / ( TILE_SIZE / 2.0f) + std::abs(mousePosY - center.y) / ( ((TILE_SIZE + 16) * 0.45) / 2.0f) <= 1) {
+        fields[0][0].isHovered = true;
         fields[0][0].setFocusTexture(textures.Focused, window);
     }
 }

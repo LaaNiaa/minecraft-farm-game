@@ -63,6 +63,10 @@ void Field::render(sf::RenderWindow& window) {
     if (blockType != BlockType::NONE && blockSprite.has_value()) {
         window.draw(*blockSprite);
     }
+
+    if (isHovered == true && blockType != BlockType::NONE) {
+        window.draw(*focusSprite);
+    }
 }
 
 sf::Vector2f Field::getPosition() const {

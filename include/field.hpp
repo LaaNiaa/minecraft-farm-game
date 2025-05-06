@@ -18,6 +18,8 @@ class Field {
 
         sf::Vector2f getPosition() const;
         sf::Vector2f getTopCenter() const;
+        bool isHovered;
+
         BlockType getBlockType() const;
         CropState getCropState() const;
 
