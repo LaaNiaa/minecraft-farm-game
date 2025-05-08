@@ -59,7 +59,7 @@ void Field::render(sf::RenderWindow& window) {
         window.draw(*blockSprite);
     }
 
-    if (isHovered == true && blockType != BlockType::NONE) {
+    if (isFocused == true && blockType != BlockType::NONE) {
         window.draw(*focusSprite);
     }
 }
