@@ -20,6 +20,7 @@ class Game {
         sf::View gameView;
         float zoomLevel;
         float zoomStep;
+        sf::Vector2f focusedField;
 
         struct Textures {
             sf::Texture Focused;
