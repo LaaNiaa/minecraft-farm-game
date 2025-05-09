@@ -55,6 +55,8 @@ void Game::updateFiledPositions() {
             fields[y][x].setTopCenter(isoX, isoY);
             fields[y][x].setBlockType(BlockType::NONE);
             fields[y][x].setCropState(CropState::EMPTY);
+
+            //std::cout << "Field: " << y << x << " : x " << isoX << ", y " << isoY << " id: " << id << std::endl;
         }
     }
 }
@@ -106,7 +108,9 @@ void Game::mouseFocus(float mousePosX, float mousePosY) {
         }
     }
 
-
+    //std::cout << focusedField.x << focusedField.y << std::endl;
+    //std::cout << center.x << ", " << center.y << std::endl;
+    //std::cout << "Mouse focus" << std::endl;
     }
 }
 
@@ -143,7 +147,10 @@ void Game::processEvents() {
         }
         else if (const auto* mouseButtonPressed = event->getIf<sf::Event::MouseButtonPressed>()) {
             if (mouseButtonPressed->button == sf::Mouse::Button::Left) {
-                //std::cout << "mouse: " << mouseButtonPressed->position.x << ", " << mouseButtonPressed->position.y << " | field: " << focusedField.x << ", " << focusedField.y << std::endl;
+                sf::Vector2i pixelLeftClickPos = mouseButtonPressed->position;
+                sf::Vector2f worldLeftClickPos = window.mapPixelToCoords(pixelLeftClickPos);
+
+                std::cout << "mouse: " << worldLeftClickPos.x << ", " << worldLeftClickPos.y << " | field: " << focusedField.x << ", " << focusedField.y << std::endl;
             }
         }
     }
