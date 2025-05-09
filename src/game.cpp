@@ -138,6 +138,13 @@ void Game::processEvents() {
             sf::Vector2i pixelPos = sf::Mouse::getPosition(window);
             sf::Vector2f worldPos = window.mapPixelToCoords(pixelPos);
             mouseFocus(worldPos.x, worldPos.y);
+            //std::cout << "mouse x: " << worldPos.x << std::endl;
+            //std::cout << "mouse y: " << worldPos.y << std::endl;
+        }
+        else if (const auto* mouseButtonPressed = event->getIf<sf::Event::MouseButtonPressed>()) {
+            if (mouseButtonPressed->button == sf::Mouse::Button::Left) {
+                //std::cout << "mouse: " << mouseButtonPressed->position.x << ", " << mouseButtonPressed->position.y << " | field: " << focusedField.x << ", " << focusedField.y << std::endl;
+            }
         }
     }
 }
