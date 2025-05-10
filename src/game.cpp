@@ -89,6 +89,12 @@ void Game::handleZoom(float zoomLevel) {
     window.setView(gameView);
 }
 
+void Game::handleViewMovement(sf::Vector2f worldPos) {
+    gameView.move(worldLeftClickPos - worldPos);
+    window.setView(gameView);
+}
+
+
 void Game::mouseFocus(float mousePosX, float mousePosY) {
     for (int y = 0; y < GRID_HEIGHT; y++) {
         for (int x = 0; x < GRID_WIDTH; x++) {
@@ -142,15 +148,27 @@ void Game::processEvents() {
             sf::Vector2i pixelPos = sf::Mouse::getPosition(window);
             sf::Vector2f worldPos = window.mapPixelToCoords(pixelPos);
             mouseFocus(worldPos.x, worldPos.y);
+
+            if (mouseButtonLeftPressed == true) {
+                handleViewMovement(worldPos);
+            }
+
             //std::cout << "mouse x: " << worldPos.x << std::endl;
             //std::cout << "mouse y: " << worldPos.y << std::endl;
         }
         else if (const auto* mouseButtonPressed = event->getIf<sf::Event::MouseButtonPressed>()) {
             if (mouseButtonPressed->button == sf::Mouse::Button::Left) {
                 sf::Vector2i pixelLeftClickPos = mouseButtonPressed->position;
-                sf::Vector2f worldLeftClickPos = window.mapPixelToCoords(pixelLeftClickPos);
+                worldLeftClickPos = window.mapPixelToCoords(pixelLeftClickPos);
+
+                mouseButtonLeftPressed = true;
 
                 std::cout << "mouse: " << worldLeftClickPos.x << ", " << worldLeftClickPos.y << " | field: " << focusedField.x << ", " << focusedField.y << std::endl;
+            }
+        }
+        else if (const auto* mouseButtonReleased = event->getIf<sf::Event::MouseButtonReleased>()) {
+            if (mouseButtonReleased->button == sf::Mouse::Button::Left) {
+                mouseButtonLeftPressed = false;
             }
         }
     }

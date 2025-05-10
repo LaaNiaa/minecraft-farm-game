@@ -21,6 +21,8 @@ class Game {
         float zoomLevel;
         float zoomStep;
         sf::Vector2f focusedField;
+        bool mouseButtonLeftPressed = false;
+        sf::Vector2f worldLeftClickPos;
 
         struct Textures {
             sf::Texture Focused;
@@ -37,6 +39,7 @@ class Game {
         void processEvents();
         void handleWindowResize(unsigned int width, unsigned int height);
         void handleZoom(float zoomLevel);
+        void handleViewMovement(sf::Vector2f worldPos);
         void mouseFocus(float mousePosX, float mousePosY);
 
         void render();
