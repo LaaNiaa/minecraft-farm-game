@@ -59,7 +59,7 @@ void Field::render(sf::RenderWindow& window) {
         window.draw(*blockSprite);
     }
 
-    if (isFocused == true && blockType != BlockType::NONE) {
+    if (isFocused == true && blockType != BlockType::NONE && blockType != BlockType::WATER) {
         window.draw(*focusSprite);
     }
 }
