@@ -177,7 +177,7 @@ void Game::processEvents() {
 }
 
 void Game::render() {
-    window.clear();
+    window.clear(sf::Color(110, 177, 255));
 
     renderFields();
 
