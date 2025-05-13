@@ -8,7 +8,10 @@ const int TILE_SIZE = WINDOW_WIDTH / 12.8;
 
 enum class BlockType {
     NONE,
-    GRASS_BLOCK
+    GRASS_BLOCK,
+    DIRT,
+    FARMLAND,
+    WATER
 };
 
 enum class CropState {

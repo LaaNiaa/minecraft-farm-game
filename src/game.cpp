@@ -28,8 +28,23 @@ void Game::loadTextures() {
         std::cerr << "Failed to load Focused texture" << std::endl;
     }
 
+    if (!textures.Dirt.loadFromFile("../../textures/Dirt.png")) {
+        std::cerr << "Failed to load Dirt texture" << std::endl;
+    }
+
+    if (!textures.Farmland.loadFromFile("../../textures/Farmland.png")) {
+        std::cerr << "Failed to load Farmland texture" << std::endl;
+    }
+
+    if (!textures.Water.loadFromFile("../../textures/Water.png")) {
+        std::cerr << "Failed to load Water texture" << std::endl;
+    }
+
     blockTextures.push_back(textures.Grass_Block);
-    blockTextures.push_back(textures.Focused);
+    blockTextures.push_back(textures.Dirt);
+    blockTextures.push_back(textures.Farmland);
+    blockTextures.push_back(textures.Water);
+
 }
 
 void Game::initializeFields() {

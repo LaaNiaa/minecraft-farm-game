@@ -27,6 +27,9 @@ class Game {
         struct Textures {
             sf::Texture Focused;
             sf::Texture Grass_Block;
+            sf::Texture Dirt;
+            sf::Texture Farmland;
+            sf::Texture Water;
         } textures;
 
     std::vector<sf::Texture> blockTextures;

@@ -63,6 +63,15 @@ BlockType MapLoader::intToBlockType(int value) {
     case 1:
       return BlockType::GRASS_BLOCK;
       break;
+    case 2:
+      return BlockType::DIRT;
+      break;
+    case 3:
+      return BlockType::FARMLAND;
+      break;
+    case 4:
+      return BlockType::WATER;
+      break;
     default:
       return BlockType::NONE;
       break;
