@@ -93,6 +93,7 @@ void Game::loadMap(const std::string& filename) {
 
 void Game::run() {
     while (window.isOpen()) {
+        clock();
         processEvents();
         render();
     }
@@ -195,6 +196,19 @@ void Game::processEvents() {
         }
     }
 }
+
+void Game::clock() {
+    sf::Time gameTime = gameClock.getElapsedTime();
+
+    if (gameTime.asMilliseconds() >= 10000) {
+        gameClock.restart();
+        std::cout << "Tick" << std::endl;
+    }
+}
+
+
+
+
 
 void Game::render() {
     window.clear(sf::Color(110, 177, 255));

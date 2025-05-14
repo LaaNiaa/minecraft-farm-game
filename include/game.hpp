@@ -14,6 +14,7 @@ class Game {
         void run();
 
     private:
+        sf::Clock gameClock;
         sf::RenderWindow window;
         std::vector<std::vector<Field>> fields;
         std::string mapFilePath;
@@ -46,6 +47,7 @@ class Game {
         void handleViewMovement(sf::Vector2f worldPos);
         void mouseFocus(float mousePosX, float mousePosY);
 
+        void clock();
         void render();
         void renderFields();
 };
