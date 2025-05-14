@@ -10,7 +10,8 @@ enum class BlockType {
     NONE,
     GRASS_BLOCK,
     DIRT,
-    FARMLAND,
+    FARMLAND_DRY,
+    FARMLAND_WET,
     WATER
 };
 

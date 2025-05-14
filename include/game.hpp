@@ -28,7 +28,8 @@ class Game {
             sf::Texture Focused;
             sf::Texture Grass_Block;
             sf::Texture Dirt;
-            sf::Texture Farmland;
+            sf::Texture Farmland_Dry;
+            sf::Texture Farmland_Wet;
             sf::Texture Water;
         } textures;
 

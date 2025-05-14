@@ -32,8 +32,12 @@ void Game::loadTextures() {
         std::cerr << "Failed to load Dirt texture" << std::endl;
     }
 
-    if (!textures.Farmland.loadFromFile("../../textures/Farmland.png")) {
-        std::cerr << "Failed to load Farmland texture" << std::endl;
+    if (!textures.Farmland_Dry.loadFromFile("../../textures/Farmland_Dry.png")) {
+        std::cerr << "Failed to load Farmland_Dry texture" << std::endl;
+    }
+
+    if (!textures.Farmland_Wet.loadFromFile("../../textures/Farmland_Wet.png")) {
+        std::cerr << "Failed to load Farmland_Wet texture" << std::endl;
     }
 
     if (!textures.Water.loadFromFile("../../textures/Water.png")) {
@@ -42,7 +46,8 @@ void Game::loadTextures() {
 
     blockTextures.push_back(textures.Grass_Block);
     blockTextures.push_back(textures.Dirt);
-    blockTextures.push_back(textures.Farmland);
+    blockTextures.push_back(textures.Farmland_Dry);
+    blockTextures.push_back(textures.Farmland_Wet);
     blockTextures.push_back(textures.Water);
 
 }
