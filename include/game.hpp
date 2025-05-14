@@ -24,6 +24,7 @@ class Game {
         sf::Vector2f focusedField;
         bool mouseButtonLeftPressed = false;
         sf::Vector2f worldLeftClickPos;
+        bool flag = false;
 
         struct Textures {
             sf::Texture Focused;
@@ -46,6 +47,8 @@ class Game {
         void handleZoom(float zoomLevel);
         void handleViewMovement(sf::Vector2f worldPos);
         void mouseFocus(float mousePosX, float mousePosY);
+
+        void farmlandHydration();
 
         void clock();
         void render();

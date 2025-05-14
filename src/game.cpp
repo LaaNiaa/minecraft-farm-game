@@ -203,11 +203,32 @@ void Game::clock() {
     if (gameTime.asMilliseconds() >= 10000) {
         gameClock.restart();
         std::cout << "Tick" << std::endl;
+
+        farmlandHydration();
     }
 }
 
-
-
+void Game::farmlandHydration() {
+    for (int y = 0; y < GRID_HEIGHT; y++) {
+        for (int x = 0; x < GRID_WIDTH; x++) {
+            if (fields[y][x].getBlockType() == BlockType::FARMLAND_DRY) {
+                for (int i = y-4; i <= y+4; i++) {
+                    if (flag == true) {
+                        flag = false;
+                        break;
+                    }
+                    for (int j = x-4; j <= x+4; j++) {
+                        if (fields[i][j].getBlockType() == BlockType::WATER) {
+                            std::cout << "WATER" << " | " << y << " " << x << " | " << i << " " << j << std::endl;
+                            flag = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 
 
 void Game::render() {
