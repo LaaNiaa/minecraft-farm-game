@@ -2,7 +2,6 @@
 #include "../include/map_loader.hpp"
 
 #include <iostream>
-#include <map>
 
 Game::Game()
     : window(sf::RenderWindow(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Minecraft Farm Game")), mapFilePath("../../maps/default_map.txt") {
@@ -220,6 +219,11 @@ void Game::farmlandHydration() {
                     for (int j = x-4; j <= x+4; j++) {
                         if (fields[i][j].getBlockType() == BlockType::WATER) {
                             std::cout << "WATER" << " | " << y << " " << x << " | " << i << " " << j << std::endl;
+                            if (rand()%100 < 20) {
+                                //does not change the map yet
+                                fields[y][x].setBlockType(BlockType::FARMLAND_WET);
+                                fields[y][x].setTexture(textures.Farmland_Wet);
+                            }
                             flag = true;
                             break;
                         }
