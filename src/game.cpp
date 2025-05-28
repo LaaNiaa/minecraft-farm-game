@@ -49,6 +49,37 @@ void Game::loadTextures() {
     blockTextures.push_back(textures.Farmland_Wet);
     blockTextures.push_back(textures.Water);
 
+    if (!textures.Wheat_Age_0.loadFromFile("../../textures/wheat/Wheat_Age_0.png")) {
+        std::cerr << "Failed to load Wheat_Age_0 texture" << std::endl;
+    }
+
+    if (!textures.Wheat_Age_1.loadFromFile("../../textures/wheat/Wheat_Age_1.png")) {
+        std::cerr << "Failed to load Wheat_Age_1 texture" << std::endl;
+    }
+
+    if (!textures.Wheat_Age_2.loadFromFile("../../textures/wheat/Wheat_Age_2.png")) {
+        std::cerr << "Failed to load Wheat_Age_2 texture" << std::endl;
+    }
+
+    if (!textures.Wheat_Age_3.loadFromFile("../../textures/wheat/Wheat_Age_3.png")) {
+        std::cerr << "Failed to load Wheat_Age_3 texture" << std::endl;
+    }
+
+    if (!textures.Wheat_Age_4.loadFromFile("../../textures/wheat/Wheat_Age_4.png")) {
+        std::cerr << "Failed to load Wheat_Age_4 texture" << std::endl;
+    }
+
+    if (!textures.Wheat_Age_5.loadFromFile("../../textures/wheat/Wheat_Age_5.png")) {
+        std::cerr << "Failed to load Wheat_Age_5 texture" << std::endl;
+    }
+
+    if (!textures.Wheat_Age_6.loadFromFile("../../textures/wheat/Wheat_Age_6.png")) {
+        std::cerr << "Failed to load Wheat_Age_6 texture" << std::endl;
+    }
+
+    if (!textures.Wheat_Age_7.loadFromFile("../../textures/wheat/Wheat_Age_7.png")) {
+        std::cerr << "Failed to load Wheat_Age_7 texture" << std::endl;
+    }
 }
 
 void Game::initializeFields() {

@@ -13,6 +13,7 @@ class Field {
         void setCropState(CropState state);
         void setCropType(CropType type);
         void setTexture(const sf::Texture& texture);
+        void setPlantTexture(const sf::Texture& texture);
         void setFocusTexture(const sf::Texture& texture, sf::RenderWindow& window);
 
         void render(sf::RenderWindow& window);
@@ -27,6 +28,7 @@ class Field {
 
     private:
         std::optional<sf::Sprite> blockSprite;
+        std::optional<sf::Sprite> plantSprite;
         std::optional<sf::Sprite> focusSprite;
 
         sf::Vector2f position;

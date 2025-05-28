@@ -34,6 +34,15 @@ class Game {
             sf::Texture Farmland_Dry;
             sf::Texture Farmland_Wet;
             sf::Texture Water;
+
+            sf::Texture Wheat_Age_0;
+            sf::Texture Wheat_Age_1;
+            sf::Texture Wheat_Age_2;
+            sf::Texture Wheat_Age_3;
+            sf::Texture Wheat_Age_4;
+            sf::Texture Wheat_Age_5;
+            sf::Texture Wheat_Age_6;
+            sf::Texture Wheat_Age_7;
         } textures;
 
     std::vector<sf::Texture> blockTextures;
