@@ -188,6 +188,12 @@ void Game::processEvents() {
 
                 std::cout << "mouse: " << worldLeftClickPos.x << ", " << worldLeftClickPos.y << " | field: " << focusedField.x << ", " << focusedField.y << std::endl;
             }
+            else if (mouseButtonPressed->button == sf::Mouse::Button::Right) {
+                sf::Vector2i pixelRightClickPos = mouseButtonPressed->position;
+                worldRightClickPos = window.mapPixelToCoords(pixelRightClickPos);
+
+                std::cout << "mouse right: " << worldRightClickPos.x << ", " << worldRightClickPos.y << " | field: " << focusedField.x << ", " << focusedField.y << std::endl;
+            }
         }
         else if (const auto* mouseButtonReleased = event->getIf<sf::Event::MouseButtonReleased>()) {
             if (mouseButtonReleased->button == sf::Mouse::Button::Left) {

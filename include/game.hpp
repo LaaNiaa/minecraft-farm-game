@@ -24,6 +24,7 @@ class Game {
         sf::Vector2f focusedField;
         bool mouseButtonLeftPressed = false;
         sf::Vector2f worldLeftClickPos;
+        sf::Vector2f worldRightClickPos;
         bool flag = false;
 
         struct Textures {
