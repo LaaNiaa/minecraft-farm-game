@@ -46,6 +46,20 @@ void Field::setTexture(const sf::Texture& texture) {
     blockSprite->setOrigin(sf::Vector2f(texture.getSize().x / 2.0f, texture.getSize().y));
 }
 
+void Field::setPlantTexture(const sf::Texture& texture) {
+    plantSprite = sf::Sprite(texture);
+
+    plantSprite->setPosition(position);
+
+    float effectiveWidth = texture.getSize().x - 32;
+    float effectiveHeight = texture.getSize().y - 32;
+    float scaleX = static_cast<float>(TILE_SIZE) / effectiveWidth;
+    float scaleY = static_cast<float>(TILE_SIZE) / effectiveHeight;
+    plantSprite->setScale(sf::Vector2f(scaleX, scaleY));
+
+    plantSprite->setOrigin(sf::Vector2f(texture.getSize().x / 2.0f, texture.getSize().y + TILE_SIZE));
+}
+
 void Field::setFocusTexture(const sf::Texture& texture, sf::RenderWindow& window) {
     focusSprite = sf::Sprite(texture);
 
@@ -63,6 +77,10 @@ void Field::setFocusTexture(const sf::Texture& texture, sf::RenderWindow& window
 void Field::render(sf::RenderWindow& window) {
     if (blockType != BlockType::NONE && blockSprite.has_value()) {
         window.draw(*blockSprite);
+    }
+
+    if (blockType != BlockType::NONE && cropState != CropState::EMPTY && cropType != CropType::NONE) {
+        window.draw(*plantSprite);
     }
 
     if (isFocused == true && blockType != BlockType::NONE && blockType != BlockType::WATER) {

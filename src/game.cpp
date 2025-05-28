@@ -223,6 +223,8 @@ void Game::processEvents() {
                 sf::Vector2i pixelRightClickPos = mouseButtonPressed->position;
                 worldRightClickPos = window.mapPixelToCoords(pixelRightClickPos);
 
+                plant();
+
                 std::cout << "mouse right: " << worldRightClickPos.x << ", " << worldRightClickPos.y << " | field: " << focusedField.x << ", " << focusedField.y << std::endl;
             }
         }
@@ -233,6 +235,17 @@ void Game::processEvents() {
         }
     }
 }
+
+void Game::plant() {
+    if (fields[focusedField.x][focusedField.y].getBlockType() == BlockType::FARMLAND_DRY || fields[focusedField.x][focusedField.y].getBlockType() == BlockType::FARMLAND_WET) {
+        if (fields[focusedField.x][focusedField.y].getCropState() == CropState::EMPTY) {
+            fields[focusedField.x][focusedField.y].setCropType(CropType::WHEAT);
+            fields[focusedField.x][focusedField.y].setCropState(CropState::SEED);
+            fields[focusedField.x][focusedField.y].setPlantTexture(textures.Wheat_Age_0);
+        }
+    }
+}
+
 
 void Game::clock() {
     sf::Time gameTime = gameClock.getElapsedTime();

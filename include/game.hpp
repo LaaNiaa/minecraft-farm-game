@@ -59,6 +59,7 @@ class Game {
         void mouseFocus(float mousePosX, float mousePosY);
 
         void farmlandHydration();
+        void plant();
 
         void clock();
         void render();
