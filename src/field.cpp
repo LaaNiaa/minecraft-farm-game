@@ -2,7 +2,8 @@
 
 Field::Field()
     : blockType(BlockType::NONE),
-      cropState(CropState::EMPTY) {
+      cropState(CropState::EMPTY),
+      cropType(CropType::NONE){
     position = sf::Vector2f(0.0f, 0.0f);
 }
 
@@ -25,6 +26,11 @@ void Field::setBlockType(BlockType type) {
 void Field::setCropState(CropState state) {
     cropState = state;
 }
+
+void Field::setCropType(CropType type) {
+    cropType = type;
+}
+
 
 void Field::setTexture(const sf::Texture& texture) {
     blockSprite = sf::Sprite(texture);
@@ -78,4 +84,8 @@ BlockType Field::getBlockType() const {
 
 CropState Field::getCropState() const {
     return cropState;
+}
+
+CropType Field::getCropType() const {
+    return cropType;
 }

@@ -11,6 +11,7 @@ class Field {
         void setTopCenter(float x, float y);
         void setBlockType(BlockType type);
         void setCropState(CropState state);
+        void setCropType(CropType type);
         void setTexture(const sf::Texture& texture);
         void setFocusTexture(const sf::Texture& texture, sf::RenderWindow& window);
 
@@ -22,6 +23,7 @@ class Field {
 
         BlockType getBlockType() const;
         CropState getCropState() const;
+        CropType getCropType() const;
 
     private:
         std::optional<sf::Sprite> blockSprite;
@@ -31,4 +33,5 @@ class Field {
         sf::Vector2f topCenter;
         BlockType blockType;
         CropState cropState;
+        CropType cropType;
 };

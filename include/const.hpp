@@ -16,5 +16,12 @@ enum class BlockType {
 };
 
 enum class CropState {
-    EMPTY
+    EMPTY,
+    SEED,
+    GROWN
+};
+
+enum class CropType {
+    NONE,
+    WHEAT
 };

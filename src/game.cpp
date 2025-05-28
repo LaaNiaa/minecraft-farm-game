@@ -74,6 +74,7 @@ void Game::updateFiledPositions() {
             fields[y][x].setTopCenter(isoX, isoY);
             fields[y][x].setBlockType(BlockType::NONE);
             fields[y][x].setCropState(CropState::EMPTY);
+            fields[y][x].setCropType(CropType::NONE);
 
             //std::cout << "Field: " << y << x << " : x " << isoX << ", y " << isoY << " id: " << id << std::endl;
         }
