@@ -26,6 +26,8 @@ class Field {
         CropState getCropState() const;
         CropType getCropType() const;
 
+        int cropAge;
+
     private:
         std::optional<sf::Sprite> blockSprite;
         std::optional<sf::Sprite> plantSprite;

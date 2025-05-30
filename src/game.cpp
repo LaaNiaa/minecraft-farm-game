@@ -242,10 +242,67 @@ void Game::plant() {
             fields[focusedField.x][focusedField.y].setCropType(CropType::WHEAT);
             fields[focusedField.x][focusedField.y].setCropState(CropState::SEED);
             fields[focusedField.x][focusedField.y].setPlantTexture(textures.Wheat_Age_0);
+            fields[focusedField.x][focusedField.y].cropAge = 0;
         }
     }
 }
 
+void Game::plantGrowth() {
+    for (int y = 0; y < GRID_HEIGHT; y++) {
+        for (int x = 0; x < GRID_WIDTH; x++) {
+            if (fields[y][x].getCropState() == CropState::SEED) {
+                switch (fields[y][x].cropAge) {
+                    case 0:
+                        if (rand()%100 < 33) {
+                            fields[y][x].cropAge++;
+                            fields[y][x].setPlantTexture(textures.Wheat_Age_1);
+                        }
+                    break;
+                    case 1:
+                        if (rand()%100 < 33) {
+                            fields[y][x].cropAge++;
+                            fields[y][x].setPlantTexture(textures.Wheat_Age_2);
+                        }
+                    break;
+                    case 2:
+                        if (rand()%100 < 33) {
+                            fields[y][x].cropAge++;
+                            fields[y][x].setPlantTexture(textures.Wheat_Age_3);
+                        }
+                    break;
+                    case 3:
+                        if (rand()%100 < 33) {
+                            fields[y][x].cropAge++;
+                            fields[y][x].setPlantTexture(textures.Wheat_Age_4);
+                        }
+                    break;
+                    case 4:
+                        if (rand()%100 < 33) {
+                            fields[y][x].cropAge++;
+                            fields[y][x].setPlantTexture(textures.Wheat_Age_5);
+                        }
+                    break;
+                    case 5:
+                        if (rand()%100 < 33) {
+                            fields[y][x].cropAge++;
+                            fields[y][x].setPlantTexture(textures.Wheat_Age_6);
+                        }
+                    break;
+                    case 6:
+                        if (rand()%100 < 33) {
+                            fields[y][x].cropAge++;
+                            fields[y][x].setPlantTexture(textures.Wheat_Age_7);
+                            fields[y][x].setCropState(CropState::GROWN);
+                        }
+                    break;
+                    default:
+                        std::cout << "crop age is not recognized" << std::endl;
+                    break;
+                }
+            }
+        }
+    }
+}
 
 void Game::clock() {
     sf::Time gameTime = gameClock.getElapsedTime();
@@ -255,6 +312,7 @@ void Game::clock() {
         std::cout << "Tick" << std::endl;
 
         farmlandHydration();
+        plantGrowth();
     }
 }
 
