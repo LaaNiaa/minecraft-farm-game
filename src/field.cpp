@@ -57,7 +57,7 @@ void Field::setPlantTexture(const sf::Texture& texture) {
     float scaleY = static_cast<float>(TILE_SIZE) / effectiveHeight;
     plantSprite->setScale(sf::Vector2f(scaleX, scaleY));
 
-    plantSprite->setOrigin(sf::Vector2f(texture.getSize().x / 2.0f, texture.getSize().y + TILE_SIZE));
+    plantSprite->setOrigin(sf::Vector2f(texture.getSize().x / 2.0f, texture.getSize().y + TILE_SIZE + (TILE_SIZE / 16)));
 }
 
 void Field::setFocusTexture(const sf::Texture& texture, sf::RenderWindow& window) {
