@@ -51,6 +51,7 @@ class Game {
 
             sf::Texture Emerald;
             sf::Texture Chest;
+            sf::Texture Inventory;
         } textures;
 
     std::vector<sf::Texture> blockTextures;
@@ -76,4 +77,5 @@ class Game {
         void renderFields();
         void renderFocusFields();
         void renderHud();
+        void renderInventory();
 };

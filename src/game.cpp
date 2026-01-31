@@ -93,6 +93,10 @@ void Game::loadTextures() {
         std::cerr << "Failed to load Chest texture" << std::endl;
     }
 
+    if (!textures.Inventory.loadFromFile("../../textures/hud/Inventory.png")) {
+        std::cerr << "Failed to load Inventory texture" << std::endl;
+    }
+
     if (!font.openFromFile("../../textures/font/Minecraft.ttf")) {
         std::cerr << "Failed to load font" << std::endl;
     }
@@ -387,6 +391,7 @@ void Game::render() {
 
     window.setView(hudView);
     renderHud();
+    renderInventory();
 
     window.setView(gameView);
 
@@ -430,7 +435,7 @@ void Game::renderHud() {
     float chestScaleX = chestIconSize / static_cast<float>(chestTexSize.x);
     float chestScaleY = chestIconSize / static_cast<float>(chestTexSize.y);
     chestSprite.setScale(sf::Vector2f(chestScaleX, chestScaleY));
-    chestSprite.setPosition(sf::Vector2f(margin - (42 * chestScaleX), hudView.getSize().y - chestIconSize - margin - (3 * chestScaleX)));
+    chestSprite.setPosition(sf::Vector2f(margin - (42 * chestScaleX), hudView.getSize().y - chestIconSize - margin - (3 * chestScaleY)));
 
     window.draw(chestSprite);
 
@@ -442,4 +447,17 @@ void Game::renderHud() {
     countText.setPosition(sf::Vector2f(margin + iconSize + 10.0f, margin + (iconSize * 0.1f) - (20 * scaleY)));
 
     window.draw(countText);
+}
+
+void Game::renderInventory() {
+    const float inventorySize = (hudView.getSize().y * 0.8);
+    sf::Sprite inventorySprite(textures.Inventory);
+
+    sf::Vector2u inventoryTexSize = textures.Inventory.getSize();
+    float inventoryScaleX = inventorySize / static_cast<float>(inventoryTexSize.x);
+    float inventoryScaleY = (inventorySize / (176/68)) / static_cast<float>(inventoryTexSize.y);
+    inventorySprite.setScale(sf::Vector2f(inventoryScaleX, inventoryScaleY));
+    inventorySprite.setPosition(sf::Vector2f(hudView.getCenter().x - (inventoryTexSize.x * inventoryScaleX)/2  - (3 * inventoryScaleX), hudView.getCenter().y - (inventoryTexSize.y * inventoryScaleY)/2 - (3 * inventoryScaleY)));
+
+    window.draw(inventorySprite);
 }
