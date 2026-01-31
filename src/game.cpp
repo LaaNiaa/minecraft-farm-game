@@ -89,6 +89,10 @@ void Game::loadTextures() {
         std::cerr << "Failed to load Emerald texture" << std::endl;
     }
 
+    if (!textures.Chest.loadFromFile("../../textures/hud/Chest.png")) {
+        std::cerr << "Failed to load Chest texture" << std::endl;
+    }
+
     if (!font.openFromFile("../../textures/font/Minecraft.ttf")) {
         std::cerr << "Failed to load font" << std::endl;
     }
@@ -406,7 +410,7 @@ void Game::renderFocusFields() {
 }
 
 void Game::renderHud() {
-    const float margin = 20.0f;
+    const float margin = 30.0f;
     const float iconSize = 48.0f;
 
     sf::Sprite emeraldSprite(textures.Emerald);
@@ -415,16 +419,27 @@ void Game::renderHud() {
     float scaleX = iconSize / static_cast<float>(texSize.x);
     float scaleY = iconSize / static_cast<float>(texSize.y);
     emeraldSprite.setScale(sf::Vector2f(scaleX, scaleY));
-    emeraldSprite.setPosition(sf::Vector2f(margin, margin));
+    emeraldSprite.setPosition(sf::Vector2f(margin - (30 * scaleX), margin - (20 * scaleY)));
 
     window.draw(emeraldSprite);
+
+    const float chestIconSize = 150.0f;
+    sf::Sprite chestSprite(textures.Chest);
+
+    sf::Vector2u chestTexSize = textures.Chest.getSize();
+    float chestScaleX = chestIconSize / static_cast<float>(chestTexSize.x);
+    float chestScaleY = chestIconSize / static_cast<float>(chestTexSize.y);
+    chestSprite.setScale(sf::Vector2f(chestScaleX, chestScaleY));
+    chestSprite.setPosition(sf::Vector2f(margin - (42 * chestScaleX), hudView.getSize().y - chestIconSize - margin - (3 * chestScaleX)));
+
+    window.draw(chestSprite);
 
     sf::Text countText(font, std::to_string(emeraldCount), 32);
     countText.setFillColor(sf::Color::White);
     countText.setOutlineColor(sf::Color::Black);
     countText.setOutlineThickness(2.0f);
 
-    countText.setPosition(sf::Vector2f(margin + iconSize + 10.0f, margin + (iconSize * 0.1f)));
+    countText.setPosition(sf::Vector2f(margin + iconSize + 10.0f, margin + (iconSize * 0.1f) - (20 * scaleY)));
 
     window.draw(countText);
 }

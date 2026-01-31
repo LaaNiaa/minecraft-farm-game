@@ -50,6 +50,7 @@ class Game {
             sf::Texture Wheat_Age_7;
 
             sf::Texture Emerald;
+            sf::Texture Chest;
         } textures;
 
     std::vector<sf::Texture> blockTextures;
