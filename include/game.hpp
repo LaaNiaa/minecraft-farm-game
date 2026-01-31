@@ -13,12 +13,15 @@ class Game {
         Game();
         void run();
 
+        int emeraldCount = 0;
+
     private:
         sf::Clock gameClock;
         sf::RenderWindow window;
         std::vector<std::vector<Field>> fields;
         std::string mapFilePath;
         sf::View gameView;
+        sf::View hudView;
         float zoomLevel;
         float zoomStep;
         sf::Vector2f focusedField;
@@ -26,6 +29,8 @@ class Game {
         sf::Vector2f worldLeftClickPos;
         sf::Vector2f worldRightClickPos;
         bool flag = false;
+
+        sf::Font font;
 
         struct Textures {
             sf::Texture Focused;
@@ -43,6 +48,8 @@ class Game {
             sf::Texture Wheat_Age_5;
             sf::Texture Wheat_Age_6;
             sf::Texture Wheat_Age_7;
+
+            sf::Texture Emerald;
         } textures;
 
     std::vector<sf::Texture> blockTextures;
@@ -67,4 +74,5 @@ class Game {
         void render();
         void renderFields();
         void renderFocusFields();
+        void renderHud();
 };

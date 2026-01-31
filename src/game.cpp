@@ -13,6 +13,9 @@ Game::Game()
     zoomLevel = 1.0f;
     zoomStep = 1.1f;
 
+    hudView.setSize(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
+    hudView.setCenter(sf::Vector2f(WINDOW_WIDTH / 2.0f, WINDOW_HEIGHT / 2.0f));
+
     loadTextures();
     initializeFields();
     loadMap(mapFilePath);
@@ -80,6 +83,15 @@ void Game::loadTextures() {
     if (!textures.Wheat_Age_7.loadFromFile("../../textures/wheat/Wheat_Age_7.png")) {
         std::cerr << "Failed to load Wheat_Age_7 texture" << std::endl;
     }
+
+
+    if (!textures.Emerald.loadFromFile("../../textures/hud/Emerald.png")) {
+        std::cerr << "Failed to load Emerald texture" << std::endl;
+    }
+
+    if (!font.openFromFile("../../textures/font/Minecraft.ttf")) {
+        std::cerr << "Failed to load font" << std::endl;
+    }
 }
 
 void Game::initializeFields() {
@@ -134,6 +146,9 @@ void Game::handleWindowResize(unsigned int width, unsigned int height) {
     gameView.setSize(sf::Vector2f(width, height));
     handleZoom(zoomLevel);
     window.setView(gameView);
+
+    hudView.setSize(sf::Vector2f(width, height));
+    hudView.setCenter(sf::Vector2f(width / 2.0f, height / 2.0f));
 }
 
 void Game::handleZoom(float zoomLevel) {
@@ -256,6 +271,8 @@ void Game::harvest() {
             //fields[focusedField.x][focusedField.y].setPlantTexture(textures.Wheat_Age_1);
             fields[focusedField.x][focusedField.y].cropAge = 0;
 
+            emeraldCount++;
+
             std::cout << focusedField.x << ", " << focusedField.y << " - harvested!" << std::endl;
         }
     }
@@ -364,6 +381,11 @@ void Game::render() {
     renderFields();
     renderFocusFields();
 
+    window.setView(hudView);
+    renderHud();
+
+    window.setView(gameView);
+
     window.display();
 }
 
@@ -381,4 +403,28 @@ void Game::renderFocusFields() {
             fields[y][x].renderFocus(window);
         }
     }
+}
+
+void Game::renderHud() {
+    const float margin = 20.0f;
+    const float iconSize = 48.0f;
+
+    sf::Sprite emeraldSprite(textures.Emerald);
+
+    sf::Vector2u texSize = textures.Emerald.getSize();
+    float scaleX = iconSize / static_cast<float>(texSize.x);
+    float scaleY = iconSize / static_cast<float>(texSize.y);
+    emeraldSprite.setScale(sf::Vector2f(scaleX, scaleY));
+    emeraldSprite.setPosition(sf::Vector2f(margin, margin));
+
+    window.draw(emeraldSprite);
+
+    sf::Text countText(font, std::to_string(emeraldCount), 32);
+    countText.setFillColor(sf::Color::White);
+    countText.setOutlineColor(sf::Color::Black);
+    countText.setOutlineThickness(2.0f);
+
+    countText.setPosition(sf::Vector2f(margin + iconSize + 10.0f, margin + (iconSize * 0.1f)));
+
+    window.draw(countText);
 }
