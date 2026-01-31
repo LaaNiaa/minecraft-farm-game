@@ -61,6 +61,7 @@ class Game {
         void farmlandHydration();
         void plant();
         void plantGrowth();
+        void harvest();
 
         void clock();
         void render();

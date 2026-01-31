@@ -224,6 +224,7 @@ void Game::processEvents() {
                 worldRightClickPos = window.mapPixelToCoords(pixelRightClickPos);
 
                 plant();
+                harvest();
 
                 std::cout << "mouse right: " << worldRightClickPos.x << ", " << worldRightClickPos.y << " | field: " << focusedField.x << ", " << focusedField.y << std::endl;
             }
@@ -243,6 +244,19 @@ void Game::plant() {
             fields[focusedField.x][focusedField.y].setCropState(CropState::SEED);
             fields[focusedField.x][focusedField.y].setPlantTexture(textures.Wheat_Age_0);
             fields[focusedField.x][focusedField.y].cropAge = 0;
+        }
+    }
+}
+
+void Game::harvest() {
+    if (fields[focusedField.x][focusedField.y].getBlockType() == BlockType::FARMLAND_DRY || fields[focusedField.x][focusedField.y].getBlockType() == BlockType::FARMLAND_WET) {
+        if (fields[focusedField.x][focusedField.y].getCropState() == CropState::GROWN) {
+            fields[focusedField.x][focusedField.y].setCropType(CropType::NONE);
+            fields[focusedField.x][focusedField.y].setCropState(CropState::EMPTY);
+            //fields[focusedField.x][focusedField.y].setPlantTexture(textures.Wheat_Age_1);
+            fields[focusedField.x][focusedField.y].cropAge = 0;
+
+            std::cout << focusedField.x << ", " << focusedField.y << "harvested!" << std::endl;
         }
     }
 }
