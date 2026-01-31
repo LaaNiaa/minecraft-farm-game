@@ -17,6 +17,7 @@ class Field {
         void setFocusTexture(const sf::Texture& texture, sf::RenderWindow& window);
 
         void render(sf::RenderWindow& window);
+        void renderFocus(sf::RenderWindow& window);
 
         sf::Vector2f getPosition() const;
         sf::Vector2f getTopCenter() const;

@@ -66,4 +66,5 @@ class Game {
         void clock();
         void render();
         void renderFields();
+        void renderFocusFields();
 };

@@ -256,7 +256,7 @@ void Game::harvest() {
             //fields[focusedField.x][focusedField.y].setPlantTexture(textures.Wheat_Age_1);
             fields[focusedField.x][focusedField.y].cropAge = 0;
 
-            std::cout << focusedField.x << ", " << focusedField.y << "harvested!" << std::endl;
+            std::cout << focusedField.x << ", " << focusedField.y << " - harvested!" << std::endl;
         }
     }
 }
@@ -362,6 +362,7 @@ void Game::render() {
     window.clear(sf::Color(110, 177, 255));
 
     renderFields();
+    renderFocusFields();
 
     window.display();
 }
@@ -370,6 +371,14 @@ void Game::renderFields() {
     for (int y = 0; y < GRID_HEIGHT; y++) {
         for (int x = 0; x < GRID_WIDTH; x++) {
             fields[y][x].render(window);
+        }
+    }
+}
+
+void Game::renderFocusFields() {
+    for (int y = 0; y < GRID_HEIGHT; y++) {
+        for (int x = 0; x < GRID_WIDTH; x++) {
+            fields[y][x].renderFocus(window);
         }
     }
 }

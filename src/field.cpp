@@ -82,7 +82,9 @@ void Field::render(sf::RenderWindow& window) {
     if (blockType != BlockType::NONE && cropState != CropState::EMPTY && cropType != CropType::NONE) {
         window.draw(*plantSprite);
     }
+}
 
+void Field::renderFocus(sf::RenderWindow& window) {
     if (isFocused == true && blockType != BlockType::NONE && blockType != BlockType::WATER) {
         window.draw(*focusSprite);
     }
