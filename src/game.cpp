@@ -471,14 +471,13 @@ void Game::renderHud() {
 }
 
 void Game::renderInventory() {
-    const float inventorySize = (hudView.getSize().y * 0.8);
+    const float inventorySize = (hudView.getSize().x * 0.65);
     sf::Sprite inventorySprite(textures.Inventory);
 
     sf::Vector2u inventoryTexSize = textures.Inventory.getSize();
-    float inventoryScaleX = inventorySize / static_cast<float>(inventoryTexSize.x);
-    float inventoryScaleY = (inventorySize / (176/68)) / static_cast<float>(inventoryTexSize.y);
-    inventorySprite.setScale(sf::Vector2f(inventoryScaleX, inventoryScaleY));
-    inventorySprite.setPosition(sf::Vector2f(hudView.getCenter().x - (inventoryTexSize.x * inventoryScaleX)/2  - (3 * inventoryScaleX), hudView.getCenter().y - (inventoryTexSize.y * inventoryScaleY)/2 - (3 * inventoryScaleY)));
+    float inventoryScale = inventorySize / static_cast<float>(inventoryTexSize.x);
+    inventorySprite.setScale(sf::Vector2f(inventoryScale, inventoryScale));
+    inventorySprite.setPosition(sf::Vector2f(hudView.getCenter().x - (inventoryTexSize.x * inventoryScale)/2  - (3 * inventoryScale), hudView.getCenter().y - (inventoryTexSize.y * inventoryScale)/2 - (3 * inventoryScale)));
     inventoryBound = inventorySprite.getGlobalBounds();
 
     window.draw(inventorySprite);
