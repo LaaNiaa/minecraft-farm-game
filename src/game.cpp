@@ -405,7 +405,10 @@ void Game::render() {
     window.clear(sf::Color(110, 177, 255));
 
     renderFields();
-    renderFocusFields();
+
+    if (inventoryOpened == false) {
+        renderFocusFields();
+    }
 
     window.setView(hudView);
     renderHud();
