@@ -208,16 +208,18 @@ void Game::processEvents() {
             handleWindowResize(event->getIf<sf::Event::Resized>()->size.x, event->getIf<sf::Event::Resized>()->size.y);
         }
         else if (const auto* mouseWheelScrolled = event->getIf<sf::Event::MouseWheelScrolled>()) {
-            if (mouseWheelScrolled->delta <= 0) {
-                if (zoomLevel < 1.5f) {
-                    zoomLevel *= powf(zoomStep, 1);
-                    handleZoom(powf(zoomStep, 1));
+            if(inventoryOpened == false) {
+                if (mouseWheelScrolled->delta <= 0) {
+                    if (zoomLevel < 1.5f) {
+                        zoomLevel *= powf(zoomStep, 1);
+                        handleZoom(powf(zoomStep, 1));
+                    }
                 }
-            }
-            else {
-                if (zoomLevel > 0.5f) {
-                    zoomLevel *= powf(zoomStep, -1);
-                    handleZoom(powf(zoomStep, -1));
+                else {
+                    if (zoomLevel > 0.5f) {
+                        zoomLevel *= powf(zoomStep, -1);
+                        handleZoom(powf(zoomStep, -1));
+                    }
                 }
             }
         }
@@ -226,7 +228,7 @@ void Game::processEvents() {
             sf::Vector2f worldPos = window.mapPixelToCoords(pixelPos);
             mouseFocus(worldPos.x, worldPos.y);
 
-            if (mouseButtonLeftPressed == true) {
+            if (mouseButtonLeftPressed == true && inventoryOpened == false) {
                 handleViewMovement(worldPos);
             }
 
@@ -264,8 +266,10 @@ void Game::processEvents() {
                 sf::Vector2i pixelRightClickPos = mouseButtonPressed->position;
                 worldRightClickPos = window.mapPixelToCoords(pixelRightClickPos);
 
-                plant();
-                harvest();
+                if(inventoryOpened == false) {
+                    plant();
+                    harvest();
+                }
 
                 std::cout << "mouse right: " << worldRightClickPos.x << ", " << worldRightClickPos.y << " | field: " << focusedField.x << ", " << focusedField.y << std::endl;
             }
