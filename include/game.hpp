@@ -30,6 +30,9 @@ class Game {
         sf::Vector2f worldRightClickPos;
         bool flag = false;
 
+        sf::FloatRect chestBound;
+        bool inventoryOpened = false;
+
         sf::Font font;
 
         struct Textures {

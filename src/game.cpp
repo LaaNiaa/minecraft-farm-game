@@ -240,6 +240,14 @@ void Game::processEvents() {
 
                 mouseButtonLeftPressed = true;
 
+                sf::Vector2f hudMousePos = window.mapPixelToCoords(pixelLeftClickPos, hudView);
+
+                if (chestBound.contains(hudMousePos)) {
+                    std::cout << "Chest clicked" << std::endl;
+                    inventoryOpened = true;
+                    return;
+                }
+
                 std::cout << "mouse: " << worldLeftClickPos.x << ", " << worldLeftClickPos.y << " | field: " << focusedField.x << ", " << focusedField.y << std::endl;
             }
             else if (mouseButtonPressed->button == sf::Mouse::Button::Right) {
@@ -391,7 +399,9 @@ void Game::render() {
 
     window.setView(hudView);
     renderHud();
-    renderInventory();
+    if (inventoryOpened == true) {
+        renderInventory();
+    }
 
     window.setView(gameView);
 
@@ -436,6 +446,7 @@ void Game::renderHud() {
     float chestScaleY = chestIconSize / static_cast<float>(chestTexSize.y);
     chestSprite.setScale(sf::Vector2f(chestScaleX, chestScaleY));
     chestSprite.setPosition(sf::Vector2f(margin - (42 * chestScaleX), hudView.getSize().y - chestIconSize - margin - (3 * chestScaleY)));
+    chestBound = chestSprite.getGlobalBounds();
 
     window.draw(chestSprite);
 
