@@ -248,6 +248,16 @@ void Game::processEvents() {
                     return;
                 }
 
+                if (inventoryOpened == true && inventoryBound.contains(hudMousePos)) {
+                    return;
+                }
+
+                if (inventoryOpened == true && !inventoryBound.contains(hudMousePos)) {
+                    std::cout << "Inventory closed" << std::endl;
+                    inventoryOpened = false;
+                    return;
+                }
+
                 std::cout << "mouse: " << worldLeftClickPos.x << ", " << worldLeftClickPos.y << " | field: " << focusedField.x << ", " << focusedField.y << std::endl;
             }
             else if (mouseButtonPressed->button == sf::Mouse::Button::Right) {
@@ -469,6 +479,7 @@ void Game::renderInventory() {
     float inventoryScaleY = (inventorySize / (176/68)) / static_cast<float>(inventoryTexSize.y);
     inventorySprite.setScale(sf::Vector2f(inventoryScaleX, inventoryScaleY));
     inventorySprite.setPosition(sf::Vector2f(hudView.getCenter().x - (inventoryTexSize.x * inventoryScaleX)/2  - (3 * inventoryScaleX), hudView.getCenter().y - (inventoryTexSize.y * inventoryScaleY)/2 - (3 * inventoryScaleY)));
+    inventoryBound = inventorySprite.getGlobalBounds();
 
     window.draw(inventorySprite);
 }

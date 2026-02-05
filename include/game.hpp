@@ -31,6 +31,7 @@ class Game {
         bool flag = false;
 
         sf::FloatRect chestBound;
+        sf::FloatRect inventoryBound;
         bool inventoryOpened = false;
 
         sf::Font font;
