@@ -244,7 +244,7 @@ void Game::processEvents() {
 
                 sf::Vector2f hudMousePos = window.mapPixelToCoords(pixelLeftClickPos, hudView);
 
-                if (chestBound.contains(hudMousePos)) {
+                if (chestBound.contains(hudMousePos) && inventoryOpened == false) {
                     std::cout << "Chest clicked" << std::endl;
                     inventoryOpened = true;
                     return;
