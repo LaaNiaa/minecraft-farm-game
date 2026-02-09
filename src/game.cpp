@@ -266,7 +266,16 @@ void Game::processEvents() {
                 sf::Vector2i pixelRightClickPos = mouseButtonPressed->position;
                 worldRightClickPos = window.mapPixelToCoords(pixelRightClickPos);
 
+                if (inventoryOpened == true) {
+                    return;
+                }
+
                 if(inventoryOpened == false) {
+                    if (focusedField.x == -1 && focusedField.y == -1) {
+                        std::cout << "mouse right: " << worldRightClickPos.x << ", " << worldRightClickPos.y << " | field: outside the map" << std::endl;
+                        return;
+                    }
+
                     plant();
                     harvest();
                 }
