@@ -244,6 +244,15 @@ void Game::processEvents() {
 
                 sf::Vector2f hudMousePos = window.mapPixelToCoords(pixelLeftClickPos, hudView);
 
+                if (inventoryOpened == true) {
+                    for (int i = 0; i < 27; i++) {
+                        if (inventory[i].contains(hudMousePos)) {
+                            std::cout << "Clicked slot: " << i << std::endl;
+                            return;
+                        }
+                    }
+                }
+
                 if (chestBound.contains(hudMousePos) && inventoryOpened == false) {
                     std::cout << "Chest clicked" << std::endl;
                     inventoryOpened = true;
@@ -495,6 +504,23 @@ void Game::renderInventory() {
     inventorySprite.setScale(sf::Vector2f(inventoryScale, inventoryScale));
     inventorySprite.setPosition(sf::Vector2f(hudView.getCenter().x - (inventoryTexSize.x * inventoryScale)/2  - (3 * inventoryScale), hudView.getCenter().y - (inventoryTexSize.y * inventoryScale)/2 - (3 * inventoryScale)));
     inventoryBound = inventorySprite.getGlobalBounds();
+
+    sf::Vector2f inventoryPos = inventorySprite.getPosition();
+
+    int slotIndex = 0;
+    for (int row = 0; row < 3; row++) {
+        for (int col = 0; col < 9; col++) {
+            float slotX = inventoryPos.x + (inventoryOffset + col * (inventorySlotSize + inventorySpacing)) * inventoryScale;
+            float slotY = inventoryPos.y + (inventoryOffset + row * (inventorySlotSize + inventorySpacing)) * inventoryScale;
+
+            inventory[slotIndex] = sf::FloatRect(
+                sf::Vector2f(slotX, slotY),
+                sf::Vector2f(inventorySlotSize * inventoryScale, inventorySlotSize * inventoryScale)
+            );
+
+            slotIndex++;
+        }
+    }
 
     window.draw(inventorySprite);
 }

@@ -33,6 +33,10 @@ class Game {
         sf::FloatRect chestBound;
         sf::FloatRect inventoryBound;
         bool inventoryOpened = false;
+        const float inventorySlotSize = 16.0f;
+        const float inventorySpacing = 2.0f;
+        const float inventoryOffset = 11.0f;
+        std::array<sf::FloatRect, 27> inventory;
 
         sf::Font font;
 
