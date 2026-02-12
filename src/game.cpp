@@ -536,15 +536,31 @@ void Game::renderInventory() {
 }
 
 void Game::addItemToInventory(int itemID, int amount) {
-    for (int i = 0; i < 27; i++) {
-        if (inventoryItems[i].id == 0) {
-            inventoryItems[i].id = itemID;
-            inventoryItems[i].amount = amount;
-            std::cout << "Added " << amount << " items - ID: " << itemID << " to slot " << i << std::endl;
-            return;
+    int remaining = amount;
 
-            // Zrobić system stackowania itemów!!!!
+    for (int i = 0; i < inventory.size() && remaining > 0; i++) {
+        if (inventoryItems[i].id == itemID && inventoryItems[i].amount < itemStack) {
+            int spaceInSlot = itemStack - inventoryItems[i].amount;
+            int toAdd = std::min(remaining, spaceInSlot);
+
+            inventoryItems[i].amount += toAdd;
+            remaining -= toAdd;
+            std::cout << "Added " << toAdd << " items to slot " << i << std::endl;
         }
     }
-    std::cout << "Inventory full" << std::endl;
+    for (int i = 0; i < inventory.size() && remaining > 0; i++) {
+        if (inventoryItems[i].id == 0) {
+            int toAdd = std::min(remaining, itemStack);
+
+            inventoryItems[i].id = itemID;
+            inventoryItems[i].amount = toAdd;
+            remaining -= toAdd;
+            std::cout << "Added " << toAdd << " items to new slot " << i << std::endl;
+        }
+    }
+
+    if (remaining > 0) {
+        std::cout << "Inventory full! Could not add " << remaining << " items." << std::endl;
+        // add full inventory support!!!!
+    }
 }
