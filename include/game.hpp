@@ -36,7 +36,16 @@ class Game {
         const float inventorySlotSize = 16.0f;
         const float inventorySpacing = 2.0f;
         const float inventoryOffset = 11.0f;
+        const int itemStack = 64;
+
+        struct InventoryItem {
+            int id = 0;
+            int amount = 0;
+        };
+
         std::array<sf::FloatRect, 27> inventory;
+        std::array<int, 27> inventoryStacks;
+        std::array<InventoryItem, 27> inventoryItems = {};
 
         sf::Font font;
 
@@ -86,4 +95,5 @@ class Game {
         void renderFocusFields();
         void renderHud();
         void renderInventory();
+        void addItemToInventory(int itemID, int amount);
 };

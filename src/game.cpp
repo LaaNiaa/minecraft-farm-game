@@ -19,6 +19,14 @@ Game::Game()
     loadTextures();
     initializeFields();
     loadMap(mapFilePath);
+
+    //load empty inventory for now
+    for (int i = 0; i < 27; i++) {
+        if (inventoryItems[i].id == 0) {
+            inventoryItems[i].id = 0;
+            inventoryItems[i].amount = 0;
+        }
+    }
 }
 
 void Game::loadTextures() {
@@ -248,6 +256,7 @@ void Game::processEvents() {
                     for (int i = 0; i < 27; i++) {
                         if (inventory[i].contains(hudMousePos)) {
                             std::cout << "Clicked slot: " << i << std::endl;
+                            std::cout << "Item: " << inventoryItems[i].id << " - amount: " << inventoryItems[i].amount << std::endl;
                             return;
                         }
                     }
@@ -320,6 +329,7 @@ void Game::harvest() {
             fields[focusedField.x][focusedField.y].cropAge = 0;
 
             emeraldCount++;
+            addItemToInventory(1, 1);
 
             std::cout << focusedField.x << ", " << focusedField.y << " - harvested!" << std::endl;
         }
@@ -386,7 +396,7 @@ void Game::plantGrowth() {
 void Game::clock() {
     sf::Time gameTime = gameClock.getElapsedTime();
 
-    if (gameTime.asMilliseconds() >= 10000) {
+    if (gameTime.asMilliseconds() >= 1000) {
         gameClock.restart();
         std::cout << "Tick" << std::endl;
 
@@ -523,4 +533,18 @@ void Game::renderInventory() {
     }
 
     window.draw(inventorySprite);
+}
+
+void Game::addItemToInventory(int itemID, int amount) {
+    for (int i = 0; i < 27; i++) {
+        if (inventoryItems[i].id == 0) {
+            inventoryItems[i].id = itemID;
+            inventoryItems[i].amount = amount;
+            std::cout << "Added " << amount << " items - ID: " << itemID << " to slot " << i << std::endl;
+            return;
+
+            // Zrobić system stackowania itemów!!!!
+        }
+    }
+    std::cout << "Inventory full" << std::endl;
 }
