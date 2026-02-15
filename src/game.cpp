@@ -105,6 +105,14 @@ void Game::loadTextures() {
         std::cerr << "Failed to load Inventory texture" << std::endl;
     }
 
+    if (!textures.Wheat_Item.loadFromFile("../../textures/items/Wheat_Item.png")) {
+        std::cerr << "Failed to load Wheat_Item texture" << std::endl;
+    }
+
+    if (!textures.Wheat_Seeds_Item.loadFromFile("../../textures/items/Wheat_Seeds_Item.png")) {
+        std::cerr << "Failed to load Wheat_Seeds_Item texture" << std::endl;
+    }
+
     if (!font.openFromFile("../../textures/font/Minecraft.ttf")) {
         std::cerr << "Failed to load font" << std::endl;
     }
@@ -330,6 +338,7 @@ void Game::harvest() {
 
             emeraldCount++;
             addItemToInventory(1, 1);
+            addItemToInventory(2, 1);
 
             std::cout << focusedField.x << ", " << focusedField.y << " - harvested!" << std::endl;
         }
@@ -517,6 +526,12 @@ void Game::renderInventory() {
 
     sf::Vector2f inventoryPos = inventorySprite.getPosition();
 
+    window.draw(inventorySprite);
+
+    sf::Sprite itemSprite(itemTexture);
+    float itemScale = (inventorySlotSize * inventoryScale) / 160;
+    itemSprite.setScale(sf::Vector2f(itemScale, itemScale));
+
     int slotIndex = 0;
     for (int row = 0; row < 3; row++) {
         for (int col = 0; col < 9; col++) {
@@ -528,11 +543,21 @@ void Game::renderInventory() {
                 sf::Vector2f(inventorySlotSize * inventoryScale, inventorySlotSize * inventoryScale)
             );
 
+            itemSprite.setPosition(sf::Vector2f(slotX, slotY));
+
+            if (inventoryItems[slotIndex].id == 1) {
+                itemTexture = textures.Wheat_Item;
+                window.draw(itemSprite);
+            }
+
+            if (inventoryItems[slotIndex].id == 2) {
+                itemTexture = textures.Wheat_Seeds_Item;
+                window.draw(itemSprite);
+            }
+
             slotIndex++;
         }
     }
-
-    window.draw(inventorySprite);
 }
 
 void Game::addItemToInventory(int itemID, int amount) {

@@ -69,7 +69,12 @@ class Game {
             sf::Texture Emerald;
             sf::Texture Chest;
             sf::Texture Inventory;
+
+            sf::Texture Wheat_Item;
+            sf::Texture Wheat_Seeds_Item;
         } textures;
+
+        sf::Texture itemTexture;
 
     std::vector<sf::Texture> blockTextures;
 
