@@ -273,7 +273,7 @@ void Game::processEvents() {
                             std::cout << "Item: " << inventoryItems[i].id << " - amount: " << inventoryItems[i].amount << std::endl;
 
                             if (inventoryItems[i].id != 0) {
-                                selectedItem = inventoryItems[i].id;
+                                selectedItem = &inventoryItems[i];
                                 inventoryOpened = false;
                             }
 
@@ -538,19 +538,19 @@ void Game::renderHud() {
 
     window.draw(hotbarSprite);
 
-    if (selectedItem != 0) {
+    if (selectedItem != nullptr) {
         sf::Sprite selectedItemSprite(itemTexture);
 
         selectedItemSprite.setPosition(sf::Vector2f(hudView.getSize().x - hotbarSize - margin + (4 * hotbarScaleX), hudView.getSize().y - hotbarSize - margin + (4 * hotbarScaleX)));
         float selectedItemScale = (hotbarSize - (8 * hotbarScaleX)) / 160;
         selectedItemSprite.setScale(sf::Vector2f(selectedItemScale, selectedItemScale));
 
-        if (selectedItem == 1) {
+        if (selectedItem->id == 1) {
             itemTexture = textures.Wheat_Item;
             window.draw(selectedItemSprite);
         }
 
-        if (selectedItem == 2) {
+        if (selectedItem->id == 2) {
             itemTexture = textures.Wheat_Seeds_Item;
             window.draw(selectedItemSprite);
         }
