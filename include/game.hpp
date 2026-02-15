@@ -38,6 +38,7 @@ class Game {
         const float inventorySpacing = 2.0f;
         const float inventoryOffset = 11.0f;
         const int itemStack = 64;
+        int selectedItem = 0;
 
         struct InventoryItem {
             int id = 0;

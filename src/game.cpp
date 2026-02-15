@@ -271,6 +271,12 @@ void Game::processEvents() {
                         if (inventory[i].contains(hudMousePos)) {
                             std::cout << "Clicked slot: " << i << std::endl;
                             std::cout << "Item: " << inventoryItems[i].id << " - amount: " << inventoryItems[i].amount << std::endl;
+
+                            if (inventoryItems[i].id != 0) {
+                                selectedItem = inventoryItems[i].id;
+                                inventoryOpened = false;
+                            }
+
                             return;
                         }
                     }
@@ -498,6 +504,16 @@ void Game::renderHud() {
 
     window.draw(emeraldSprite);
 
+
+    sf::Text countText(font, std::to_string(emeraldCount), 32);
+    countText.setFillColor(sf::Color::White);
+    countText.setOutlineColor(sf::Color::Black);
+    countText.setOutlineThickness(2.0f);
+
+    countText.setPosition(sf::Vector2f(margin + iconSize + 10.0f, margin + (iconSize * 0.1f) - (20 * scaleY)));
+
+    window.draw(countText);
+
     const float chestIconSize = 150.0f;
     sf::Sprite chestSprite(textures.Chest);
 
@@ -522,14 +538,23 @@ void Game::renderHud() {
 
     window.draw(hotbarSprite);
 
-    sf::Text countText(font, std::to_string(emeraldCount), 32);
-    countText.setFillColor(sf::Color::White);
-    countText.setOutlineColor(sf::Color::Black);
-    countText.setOutlineThickness(2.0f);
+    if (selectedItem != 0) {
+        sf::Sprite selectedItemSprite(itemTexture);
 
-    countText.setPosition(sf::Vector2f(margin + iconSize + 10.0f, margin + (iconSize * 0.1f) - (20 * scaleY)));
+        selectedItemSprite.setPosition(sf::Vector2f(hudView.getSize().x - hotbarSize - margin + (4 * hotbarScaleX), hudView.getSize().y - hotbarSize - margin + (4 * hotbarScaleX)));
+        float selectedItemScale = (hotbarSize - (8 * hotbarScaleX)) / 160;
+        selectedItemSprite.setScale(sf::Vector2f(selectedItemScale, selectedItemScale));
 
-    window.draw(countText);
+        if (selectedItem == 1) {
+            itemTexture = textures.Wheat_Item;
+            window.draw(selectedItemSprite);
+        }
+
+        if (selectedItem == 2) {
+            itemTexture = textures.Wheat_Seeds_Item;
+            window.draw(selectedItemSprite);
+        }
+    }
 }
 
 void Game::renderInventory() {
