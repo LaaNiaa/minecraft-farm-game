@@ -554,6 +554,21 @@ void Game::renderHud() {
             itemTexture = textures.Wheat_Seeds_Item;
             window.draw(selectedItemSprite);
         }
+
+        sf::Text selectedItemCountText(font, std::to_string(selectedItem->amount), 32);
+        selectedItemCountText.setFillColor(sf::Color::White);
+        selectedItemCountText.setOutlineColor(sf::Color::Black);
+        selectedItemCountText.setOutlineThickness(2.0f);
+
+        if (selectedItem->amount > 9) {
+            selectedItemCountText.setPosition(sf::Vector2f(hudView.getSize().x - hotbarSize - margin + (4 * hotbarScaleX) + 32, hudView.getSize().y - hotbarSize - margin + (4 * hotbarScaleX) + 32));
+        }
+
+        if (selectedItem->amount <= 9 && selectedItem->amount > 0) {
+            selectedItemCountText.setPosition(sf::Vector2f(hudView.getSize().x - hotbarSize - margin + (4 * hotbarScaleX) + 48, hudView.getSize().y - hotbarSize - margin + (4 * hotbarScaleX) + 32));
+        }
+
+        window.draw(selectedItemCountText);
     }
 }
 
