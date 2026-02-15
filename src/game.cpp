@@ -27,6 +27,8 @@ Game::Game()
             inventoryItems[i].amount = 0;
         }
     }
+
+    addItemToInventory(2, 10);
 }
 
 void Game::loadTextures() {
@@ -554,6 +556,21 @@ void Game::renderInventory() {
                 itemTexture = textures.Wheat_Seeds_Item;
                 window.draw(itemSprite);
             }
+
+            sf::Text itemCountText(font, std::to_string(inventoryItems[slotIndex].amount), 32);
+            itemCountText.setFillColor(sf::Color::White);
+            itemCountText.setOutlineColor(sf::Color::Black);
+            itemCountText.setOutlineThickness(2.0f);
+
+            if (inventoryItems[slotIndex].amount > 9) {
+                itemCountText.setPosition(sf::Vector2f(slotX + (inventorySlotSize * inventoryScale) - 32 - ((inventorySpacing * inventoryScale) / 2), slotY + (inventorySlotSize * inventoryScale) - 32 - ((inventorySpacing * inventoryScale) / 2)));
+            }
+
+            if (inventoryItems[slotIndex].amount <= 9 && inventoryItems[slotIndex].amount > 0) {
+                itemCountText.setPosition(sf::Vector2f(slotX + (inventorySlotSize * inventoryScale) - 16 - ((inventorySpacing * inventoryScale) / 2), slotY + (inventorySlotSize * inventoryScale) - 32 - ((inventorySpacing * inventoryScale) / 2)));
+            }
+
+            window.draw(itemCountText);
 
             slotIndex++;
         }
