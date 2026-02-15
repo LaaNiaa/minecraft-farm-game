@@ -32,6 +32,7 @@ class Game {
 
         sf::FloatRect chestBound;
         sf::FloatRect inventoryBound;
+        sf::FloatRect hotbarBound;
         bool inventoryOpened = false;
         const float inventorySlotSize = 16.0f;
         const float inventorySpacing = 2.0f;
@@ -69,6 +70,7 @@ class Game {
             sf::Texture Emerald;
             sf::Texture Chest;
             sf::Texture Inventory;
+            sf::Texture Hotbar;
 
             sf::Texture Wheat_Item;
             sf::Texture Wheat_Seeds_Item;

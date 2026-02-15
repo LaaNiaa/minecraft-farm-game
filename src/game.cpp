@@ -107,6 +107,10 @@ void Game::loadTextures() {
         std::cerr << "Failed to load Inventory texture" << std::endl;
     }
 
+    if (!textures.Hotbar.loadFromFile("../../textures/hud/Hotbar.png")) {
+        std::cerr << "Failed to load Hotbar texture" << std::endl;
+    }
+
     if (!textures.Wheat_Item.loadFromFile("../../textures/items/Wheat_Item.png")) {
         std::cerr << "Failed to load Wheat_Item texture" << std::endl;
     }
@@ -505,6 +509,18 @@ void Game::renderHud() {
     chestBound = chestSprite.getGlobalBounds();
 
     window.draw(chestSprite);
+
+    const float hotbarSize = 100.0f;
+    sf::Sprite hotbarSprite(textures.Hotbar);
+
+    sf::Vector2u hotbarTexSize = textures.Hotbar.getSize();
+    float hotbarScaleX = hotbarSize / static_cast<float>(hotbarTexSize.x);
+    float hotbarScaleY = hotbarSize / static_cast<float>(hotbarTexSize.y);
+    hotbarSprite.setScale(sf::Vector2f(hotbarScaleX, hotbarScaleY));
+    hotbarSprite.setPosition(sf::Vector2f(hudView.getSize().x - hotbarSize - margin, hudView.getSize().y - hotbarSize - margin));
+    hotbarBound = hotbarSprite.getGlobalBounds();
+
+    window.draw(hotbarSprite);
 
     sf::Text countText(font, std::to_string(emeraldCount), 32);
     countText.setFillColor(sf::Color::White);
