@@ -358,7 +358,7 @@ void Game::harvest() {
 
             emeraldCount++;
             addItemToInventory(1, 1);
-            addItemToInventory(2, 1);
+            addItemToInventory(2, rand()%2 + 1);
 
             std::cout << focusedField.x << ", " << focusedField.y << " - harvested!" << std::endl;
         }
