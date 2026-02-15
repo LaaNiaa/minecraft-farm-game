@@ -332,10 +332,18 @@ void Game::processEvents() {
 void Game::plant() {
     if (fields[focusedField.x][focusedField.y].getBlockType() == BlockType::FARMLAND_DRY || fields[focusedField.x][focusedField.y].getBlockType() == BlockType::FARMLAND_WET) {
         if (fields[focusedField.x][focusedField.y].getCropState() == CropState::EMPTY) {
-            fields[focusedField.x][focusedField.y].setCropType(CropType::WHEAT);
-            fields[focusedField.x][focusedField.y].setCropState(CropState::SEED);
-            fields[focusedField.x][focusedField.y].setPlantTexture(textures.Wheat_Age_0);
-            fields[focusedField.x][focusedField.y].cropAge = 0;
+            if (selectedItem != nullptr && selectedItem->id == 2) {
+                fields[focusedField.x][focusedField.y].setCropType(CropType::WHEAT);
+                fields[focusedField.x][focusedField.y].setCropState(CropState::SEED);
+                fields[focusedField.x][focusedField.y].setPlantTexture(textures.Wheat_Age_0);
+                fields[focusedField.x][focusedField.y].cropAge = 0;
+                selectedItem->amount -= 1;
+                if (selectedItem->amount <= 0) {
+                    selectedItem->id = 0;
+                    selectedItem->amount = 0;
+                    selectedItem = nullptr;
+                }
+            }
         }
     }
 }
