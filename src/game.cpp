@@ -217,10 +217,8 @@ void Game::createNewGame() {
     }
 
     for (int i = 0; i < 27; i++) {
-        if (inventoryItems[i].id == 0) {
             inventoryItems[i].id = 0;
             inventoryItems[i].amount = 0;
-        }
     }
 
     addItemToInventory(2, 10);
