@@ -4,7 +4,7 @@
 #include <iostream>
 
 Game::Game()
-    : window(sf::RenderWindow(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Minecraft Farm Game")), mapFilePath("../../maps/default_map.txt") {
+    : window(sf::RenderWindow(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Minecraft Farm Game")), saveFilePath("../../saves/game_save.json") {
     window.setFramerateLimit(60);
 
     gameView.setSize(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
@@ -18,17 +18,11 @@ Game::Game()
 
     loadTextures();
     initializeFields();
-    loadMap(mapFilePath);
 
-    //load empty inventory for now
-    for (int i = 0; i < 27; i++) {
-        if (inventoryItems[i].id == 0) {
-            inventoryItems[i].id = 0;
-            inventoryItems[i].amount = 0;
-        }
+    if (!loadGame()) {
+        std::cout << "No save file found, creating new game..." << std::endl;
+        createNewGame();
     }
-
-    addItemToInventory(2, 10);
 }
 
 void Game::loadTextures() {
@@ -154,14 +148,93 @@ void Game::updateFiledPositions() {
     }
 }
 
-void Game::loadMap(const std::string& filename) {
-    std::vector<std::vector<int>> mapData = MapLoader::loadMapFromFile(filename);
+void Game::applyTexturesToFields() {
+    for (int y = 0; y < GRID_HEIGHT; y++) {
+        for (int x = 0; x < GRID_WIDTH; x++) {
+            BlockType blockType = fields[y][x].getBlockType();
 
-    if (mapData.empty()) {
-        std::cerr << "Failed to load map from file: " << filename << std::endl;
+            switch (blockType) {
+                case BlockType::GRASS_BLOCK:
+                    fields[y][x].setTexture(textures.Grass_Block);
+                    break;
+                case BlockType::DIRT:
+                    fields[y][x].setTexture(textures.Dirt);
+                    break;
+                case BlockType::FARMLAND_DRY:
+                    fields[y][x].setTexture(textures.Farmland_Dry);
+                    break;
+                case BlockType::FARMLAND_WET:
+                    fields[y][x].setTexture(textures.Farmland_Wet);
+                    break;
+                case BlockType::WATER:
+                    fields[y][x].setTexture(textures.Water);
+                    break;
+                default:
+                    break;
+            }
+
+            if (fields[y][x].getCropType() == CropType::WHEAT &&
+                fields[y][x].getCropState() != CropState::EMPTY) {
+
+                int age = fields[y][x].cropAge;
+                switch (age) {
+                    case 0: fields[y][x].setPlantTexture(textures.Wheat_Age_0); break;
+                    case 1: fields[y][x].setPlantTexture(textures.Wheat_Age_1); break;
+                    case 2: fields[y][x].setPlantTexture(textures.Wheat_Age_2); break;
+                    case 3: fields[y][x].setPlantTexture(textures.Wheat_Age_3); break;
+                    case 4: fields[y][x].setPlantTexture(textures.Wheat_Age_4); break;
+                    case 5: fields[y][x].setPlantTexture(textures.Wheat_Age_5); break;
+                    case 6: fields[y][x].setPlantTexture(textures.Wheat_Age_6); break;
+                    case 7: fields[y][x].setPlantTexture(textures.Wheat_Age_7); break;
+                }
+            }
+        }
+    }
+}
+
+void Game::saveGame() {
+    SaveManager::saveGame(fields, saveFilePath, emeraldCount, inventoryItems);
+    std::cout << "GAME SAVED" << std::endl;
+}
+
+bool Game::loadGame() {
+    bool success = SaveManager::loadGame(fields, saveFilePath, emeraldCount, inventoryItems);
+    if (success) {
+        applyTexturesToFields();
+        std::cout << "GAME LOADED" << std::endl;
+    }
+    return success;
+}
+
+void Game::createNewGame() {
+    for (int y = 0; y < GRID_HEIGHT; y++) {
+        for (int x = 0; x < GRID_WIDTH; x++) {
+            fields[y][x].setBlockType(BlockType::NONE);
+            fields[y][x].setCropState(CropState::EMPTY);
+            fields[y][x].setCropType(CropType::NONE);
+            fields[y][x].cropAge = 0;
+        }
     }
 
-    MapLoader::applyMapToFields(fields, mapData, blockTextures);
+    for (int i = 0; i < 27; i++) {
+        if (inventoryItems[i].id == 0) {
+            inventoryItems[i].id = 0;
+            inventoryItems[i].amount = 0;
+        }
+    }
+
+    addItemToInventory(2, 10);
+
+    std::string mapFilePath = "../../maps/default_map.txt";
+    std::vector<std::vector<int>> mapData = MapLoader::loadMapFromFile(mapFilePath);
+
+    if (mapData.empty()) {
+        std::cerr << "Failed to load default map from file: " << mapFilePath << std::endl;
+    } else {
+        MapLoader::applyMapToFields(fields, mapData, blockTextures);
+        emeraldCount = 0;
+        std::cout << "New game created from default map" << std::endl;
+    }
 }
 
 void Game::run() {
@@ -228,6 +301,17 @@ void Game::processEvents() {
         }
         else if (event->is<sf::Event::Resized>()) {
             handleWindowResize(event->getIf<sf::Event::Resized>()->size.x, event->getIf<sf::Event::Resized>()->size.y);
+        }
+        else if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
+            if (keyPressed->code == sf::Keyboard::Key::S && keyPressed->control) {
+                saveGame();
+            }
+            else if (keyPressed->code == sf::Keyboard::Key::L && keyPressed->control) {
+                loadGame();
+            }
+            else if (keyPressed->code == sf::Keyboard::Key::N && keyPressed->control) {
+                createNewGame();
+            }
         }
         else if (const auto* mouseWheelScrolled = event->getIf<sf::Event::MouseWheelScrolled>()) {
             if(inventoryOpened == false) {

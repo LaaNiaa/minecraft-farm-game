@@ -37,9 +37,7 @@ std::vector<std::vector<int>> MapLoader::loadMapFromFile(const std::string& file
     return mapData;
 }
 
-void MapLoader::applyMapToFields(std::vector<std::vector<Field>>& fields,
-                                 const std::vector<std::vector<int>>& mapData,
-                                 const std::vector<sf::Texture>& textures) {
+void MapLoader::applyMapToFields(std::vector<std::vector<Field>>& fields, const std::vector<std::vector<int>>& mapData, const std::vector<sf::Texture>& textures) {
   int height = std::min(static_cast<int>(mapData.size()), GRID_HEIGHT);
 
   for (int y = 0; y < height; y++) {
@@ -50,6 +48,7 @@ void MapLoader::applyMapToFields(std::vector<std::vector<Field>>& fields,
       BlockType blockType = intToBlockType(blockTypeInt);
 
       fields[y][x].setBlockType(blockType);
+      fields[y][x].cropAge = 0;
 
       if (blockType != BlockType::NONE && blockTypeInt > 0 && blockTypeInt <= textures.size()) {
         fields[y][x].setTexture(textures[blockTypeInt - 1]);

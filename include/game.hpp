@@ -7,6 +7,7 @@
 
 #include "const.hpp"
 #include "field.hpp"
+#include "save_manager.hpp"
 
 class Game {
     public:
@@ -19,7 +20,7 @@ class Game {
         sf::Clock gameClock;
         sf::RenderWindow window;
         std::vector<std::vector<Field>> fields;
-        std::string mapFilePath;
+        std::string saveFilePath;
         sf::View gameView;
         sf::View hudView;
         float zoomLevel;
@@ -38,11 +39,6 @@ class Game {
         const float inventorySpacing = 2.0f;
         const float inventoryOffset = 11.0f;
         const int itemStack = 64;
-
-        struct InventoryItem {
-            int id = 0;
-            int amount = 0;
-        };
 
         InventoryItem* selectedItem = nullptr;
 
@@ -84,8 +80,12 @@ class Game {
 
         void loadTextures();
         void initializeFields();
-        void loadMap(const std::string& filename);
         void updateFiledPositions();
+        void applyTexturesToFields();
+
+        void saveGame();
+        bool loadGame();
+        void createNewGame();
 
         void processEvents();
         void handleWindowResize(unsigned int width, unsigned int height);
