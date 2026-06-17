@@ -11,7 +11,7 @@ add_executable(main
 
 target_include_directories(main PRIVATE ${PROJECT_SOURCE_DIR}/include)
 
-target_compile_features(main PRIVATE cxx_std_17)
+target_compile_features(main PRIVATE cxx_std_20)
 target_link_libraries(main PRIVATE SFML::Graphics)
 target_link_libraries(main PRIVATE SFML::Audio)
 target_link_libraries(main PRIVATE SFML::Window)
