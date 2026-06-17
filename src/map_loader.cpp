@@ -1,10 +1,73 @@
 #include "../include/map_loader.hpp"
+#include <algorithm>
+#include <filesystem>
 #include <fstream>
 #include <sstream>
 #include <iostream>
 
+std::vector<MapFileInfo> MapLoader::listMapFiles(const std::string& directory) {
+    std::vector<MapFileInfo> mapFiles;
+
+    std::error_code errorCode;
+    const std::filesystem::path directoryPath(directory);
+    if (!std::filesystem::exists(directoryPath, errorCode) || !std::filesystem::is_directory(directoryPath, errorCode)) {
+        if (errorCode) {
+            std::cerr << "Failed to access map directory: " << directory
+                      << " (" << errorCode.message() << ")" << std::endl;
+        }
+        return mapFiles;
+    }
+
+    try {
+        for (const auto& entry : std::filesystem::directory_iterator(directoryPath)) {
+            if (!entry.is_regular_file()) {
+                continue;
+            }
+
+            const std::filesystem::path filePath = entry.path();
+            if (filePath.extension() != ".txt") {
+                continue;
+            }
+
+            MapFileInfo mapInfo;
+            mapInfo.path = filePath.string();
+            mapInfo.filename = filePath.filename().string();
+            mapFiles.push_back(mapInfo);
+        }
+    } catch (const std::filesystem::filesystem_error& e) {
+        std::cerr << "Failed to list map files in: " << directory << " (" << e.what() << ")" << std::endl;
+        return {};
+    }
+
+    std::sort(mapFiles.begin(), mapFiles.end(), [](const MapFileInfo& left, const MapFileInfo& right) {
+        return left.filename < right.filename;
+    });
+
+    return mapFiles;
+}
+
+std::string MapLoader::resolveDefaultMapPath(const std::string& directory) {
+    const std::filesystem::path defaultMapPath = std::filesystem::path(directory) / DEFAULT_MAP_FILE;
+    if (std::filesystem::exists(defaultMapPath)) {
+        return defaultMapPath.string();
+    }
+
+    const std::vector<MapFileInfo> mapFiles = listMapFiles(directory);
+    if (!mapFiles.empty()) {
+        return mapFiles.front().path;
+    }
+
+    return "";
+}
+
 std::vector<std::vector<int>> MapLoader::loadMapFromFile(const std::string& filename) {
     std::vector<std::vector<int>> mapData;
+
+    if (!std::filesystem::exists(filename)) {
+        std::cerr << "Map file does not exist: " << filename << std::endl;
+        return mapData;
+    }
+
     std::ifstream file(filename);
 
     if (!file.is_open()) {

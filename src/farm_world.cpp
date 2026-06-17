@@ -80,7 +80,12 @@ void FarmWorld::createNewGame(const std::vector<sf::Texture>& blockTextures) {
 
     focusedFieldCoords = sf::Vector2f(-1.0f, -1.0f);
 
-    const std::string mapFilePath = "../../maps/default_map.txt";
+    const std::string mapFilePath = MapLoader::resolveDefaultMapPath();
+    if (mapFilePath.empty()) {
+        std::cerr << "No map files found in directory: " << MAPS_DIR << std::endl;
+        return;
+    }
+
     const std::vector<std::vector<int>> mapData = MapLoader::loadMapFromFile(mapFilePath);
     if (mapData.empty()) {
         std::cerr << "Failed to load default map from file: " << mapFilePath << std::endl;

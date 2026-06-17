@@ -1,8 +1,84 @@
 #include "save_manager.hpp"
+#include <algorithm>
 #include <iostream>
+
+bool SaveManager::ensureParentDirectoryExists(const std::filesystem::path& filePath) {
+    const std::filesystem::path parentPath = filePath.parent_path();
+    if (parentPath.empty()) {
+        return true;
+    }
+
+    std::error_code errorCode;
+    if (std::filesystem::create_directories(parentPath, errorCode)) {
+        return true;
+    }
+
+    if (!errorCode && std::filesystem::exists(parentPath)) {
+        return true;
+    }
+
+    std::cerr << "Failed to create save directory: " << parentPath.string()
+              << " (" << errorCode.message() << ")" << std::endl;
+    return false;
+}
+
+std::vector<SaveSlotInfo> SaveManager::listSaveFiles(const std::string& directory) {
+    std::vector<SaveSlotInfo> saveFiles;
+
+    std::error_code errorCode;
+    const std::filesystem::path directoryPath(directory);
+    if (!std::filesystem::exists(directoryPath, errorCode) || !std::filesystem::is_directory(directoryPath, errorCode)) {
+        if (errorCode) {
+            std::cerr << "Failed to access save directory: " << directory
+                      << " (" << errorCode.message() << ")" << std::endl;
+        }
+        return saveFiles;
+    }
+
+    try {
+        for (const auto& entry : std::filesystem::directory_iterator(directoryPath)) {
+            if (!entry.is_regular_file()) {
+                continue;
+            }
+
+            const std::filesystem::path filePath = entry.path();
+            if (filePath.extension() != ".json") {
+                continue;
+            }
+
+            SaveSlotInfo slotInfo;
+            slotInfo.path = filePath.string();
+            slotInfo.filename = filePath.filename().string();
+            slotInfo.lastModified = entry.last_write_time();
+            saveFiles.push_back(slotInfo);
+        }
+    } catch (const std::filesystem::filesystem_error& e) {
+        std::cerr << "Failed to list save files in: " << directory << " (" << e.what() << ")" << std::endl;
+        return {};
+    }
+
+    std::sort(saveFiles.begin(), saveFiles.end(), [](const SaveSlotInfo& left, const SaveSlotInfo& right) {
+        return left.lastModified > right.lastModified;
+    });
+
+    return saveFiles;
+}
+
+std::string SaveManager::getLatestSavePath(const std::string& directory) {
+    const std::vector<SaveSlotInfo> saveFiles = listSaveFiles(directory);
+    if (saveFiles.empty()) {
+        return "";
+    }
+
+    return saveFiles.front().path;
+}
 
 bool SaveManager::saveGame(const std::vector<std::vector<Field>>& fields, const std::string& filename, int emeraldCount, std::array<InventoryItem, 27>& inventoryItems) {
     try {
+        if (!ensureParentDirectoryExists(filename)) {
+            return false;
+        }
+
         json saveData;
 
         saveData["version"] = "1.0";

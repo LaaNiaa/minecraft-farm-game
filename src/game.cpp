@@ -5,7 +5,8 @@
 #include <optional>
 
 Game::Game()
-    : window(sf::RenderWindow(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Minecraft Farm Game")), saveFilePath("../../saves/game_save.json") {
+    : window(sf::RenderWindow(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Minecraft Farm Game")),
+      saveFilePath(SAVES_DIR + "/" + DEFAULT_SAVE_FILE) {
     window.setFramerateLimit(60);
 
     gameView.setSize(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
