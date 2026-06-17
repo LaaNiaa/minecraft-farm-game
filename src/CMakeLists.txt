@@ -1,6 +1,9 @@
 add_executable(main
         main.cpp
         game.cpp
+        game_assets.cpp
+        farm_world.cpp
+        inventory_manager.cpp
         field.cpp
         map_loader.cpp
         save_manager.cpp
