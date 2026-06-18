@@ -1,5 +1,6 @@
 #pragma once
 
+#include <autosave_manager.hpp>
 #include <SFML/Graphics.hpp>
 #include <string>
 
@@ -33,6 +34,7 @@ class Game {
         GameAssets assets;
         FarmWorld world;
         InventoryManager inventory;
+        AutosaveManager autosave;
 
         void saveGame();
         bool loadGame();

@@ -6,7 +6,7 @@
 
 Game::Game()
     : window(sf::RenderWindow(sf::VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), "Minecraft Farm Game")),
-      saveFilePath(SAVES_DIR + "/" + DEFAULT_SAVE_FILE) {
+      saveFilePath(SAVES_DIR + "/" + DEFAULT_SAVE_FILE), autosave(saveFilePath) {
     window.setFramerateLimit(60);
 
     gameView.setSize(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
@@ -87,7 +87,7 @@ void Game::processEvents() {
         }
         else if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
             if (keyPressed->code == sf::Keyboard::Key::S && keyPressed->control) {
-                saveGame();
+                autosave.requestImmediateSave();
             }
             else if (keyPressed->code == sf::Keyboard::Key::L && keyPressed->control) {
                 loadGame();
@@ -147,6 +147,7 @@ void Game::processEvents() {
 
                     if (world.plant(inventory.selectedItem(), assets.wheat(0))) {
                         inventory.clearSelectionIfEmpty();
+                        autosave.updateSnapshotAndMarkDirty(world.getFields(), inventory.items(), emeraldCount);
                     }
 
                     const HarvestRewards rewards = world.harvest();
@@ -157,6 +158,7 @@ void Game::processEvents() {
                     if (rewards.seeds > 0) {
                         inventory.addItem(2, rewards.seeds);
                     }
+                    autosave.updateSnapshotAndMarkDirty(world.getFields(), inventory.items(), emeraldCount);
                 }
 
                 const sf::Vector2f focused = world.focusedField();

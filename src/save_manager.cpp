@@ -220,6 +220,57 @@ bool SaveManager::loadGame(std::vector<std::vector<Field>>& fields, const std::s
     }
 }
 
+bool SaveManager::saveSnapshot(const GameSnapshot& snapshot, const std::string& filename) {
+    try {
+        if (!ensureParentDirectoryExists(filename)) return false;
+
+        json saveData;
+        saveData["version"] = "1.0";
+        saveData["emeraldCount"] = snapshot.emeraldCount;
+        saveData["gridWidth"] = GRID_WIDTH;
+        saveData["gridHeight"] = GRID_HEIGHT;
+
+        json inventoryArray = json::array();
+        for (int i = 0; i < 27; i++) {
+            if (snapshot.inventoryItems[i].id != 0) {
+                json itemData;
+                itemData["slot"] = i;
+                itemData["id"] = snapshot.inventoryItems[i].id;
+                itemData["amount"] = snapshot.inventoryItems[i].amount;
+                inventoryArray.push_back(itemData);
+            }
+        }
+        saveData["inventory"] = inventoryArray;
+
+        json fieldsArray = json::array();
+        for (int y = 0; y < GRID_HEIGHT; y++) {
+            for (int x = 0; x < GRID_WIDTH; x++) {
+                json fieldData;
+                fieldData["x"] = x;
+                fieldData["y"] = y;
+                fieldData["blockType"] = blockTypeToString(snapshot.fields[y][x].blockType);
+                fieldData["cropState"] = cropStateToString(snapshot.fields[y][x].cropState);
+                fieldData["cropType"] = cropTypeToString(snapshot.fields[y][x].cropType);
+                fieldData["cropAge"] = snapshot.fields[y][x].cropAge;
+
+                if (snapshot.fields[y][x].blockType != BlockType::NONE) {
+                    fieldsArray.push_back(fieldData);
+                }
+            }
+        }
+        saveData["fields"] = fieldsArray;
+
+        std::ofstream file(filename);
+        if (!file.is_open()) return false;
+        file << saveData.dump(4);
+        return true;
+
+    } catch (const std::exception& e) {
+        std::cerr << "Error saving snapshot: " << e.what() << std::endl;
+        return false;
+    }
+}
+
 std::string SaveManager::blockTypeToString(BlockType type) {
     switch (type) {
         case BlockType::NONE: return "none";

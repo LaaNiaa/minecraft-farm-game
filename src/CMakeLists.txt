@@ -7,6 +7,7 @@ add_executable(main
         field.cpp
         map_loader.cpp
         save_manager.cpp
+        autosave_manager.cpp
 )
 
 target_include_directories(main PRIVATE ${PROJECT_SOURCE_DIR}/include)
