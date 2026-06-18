@@ -17,6 +17,7 @@ public:
     const sf::Texture& water() const { return waterTexture; }
 
     const sf::Texture& wheat(int age) const;
+    const sf::Texture& carrot(int age) const;
 
     const sf::Texture& emerald() const { return emeraldTexture; }
     const sf::Texture& chest() const { return chestTexture; }
@@ -25,6 +26,7 @@ public:
 
     const sf::Texture& wheatItem() const { return wheatItemTexture; }
     const sf::Texture& wheatSeedsItem() const { return wheatSeedsItemTexture; }
+    const sf::Texture& carrotItem() const { return carrotItemTexture; }
 
     const sf::Font& gameFont() const { return font; }
     const std::vector<sf::Texture>& blockTextures() const { return blockTextureList; }
@@ -40,6 +42,7 @@ private:
     sf::Texture waterTexture;
 
     std::array<sf::Texture, 8> wheatTextures;
+    std::array<sf::Texture, 4> carrotTextures;
 
     sf::Texture emeraldTexture;
     sf::Texture chestTexture;
@@ -48,6 +51,7 @@ private:
 
     sf::Texture wheatItemTexture;
     sf::Texture wheatSeedsItemTexture;
+    sf::Texture carrotItemTexture;
 
     sf::Font font;
     std::vector<sf::Texture> blockTextureList;

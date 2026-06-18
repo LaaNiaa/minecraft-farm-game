@@ -6,13 +6,13 @@
 #include "const.hpp"
 #include "field.hpp"
 #include "save_manager.hpp"
+#include <utility>
 
 class GameAssets;
 
 struct HarvestRewards {
     int emeralds = 0;
-    int wheat = 0;
-    int seeds = 0;
+    std::vector<std::pair<int, int>> droppedItems;
 };
 
 class FarmWorld {
@@ -25,7 +25,7 @@ public:
     bool hasFocusedField() const;
     sf::Vector2f focusedField() const { return focusedFieldCoords; }
 
-    bool plant(InventoryItem* selectedItem, const sf::Texture& wheatSeedTexture);
+    bool plant(InventoryItem* selectedItem, const GameAssets& assets);
     HarvestRewards harvest();
 
     void tick(const GameAssets& assets);

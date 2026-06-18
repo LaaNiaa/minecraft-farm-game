@@ -66,7 +66,13 @@ const sf::Texture& InventoryManager::textureForItem(const GameAssets& assets, in
     if (itemId == 1) {
         return assets.wheatItem();
     }
-    return assets.wheatSeedsItem();
+    if (itemId == 2) {
+        return assets.wheatSeedsItem();
+    }
+    if (itemId == 3) {
+        return assets.carrotItem();
+    }
+
 }
 
 void InventoryManager::renderHud(sf::RenderWindow& window, const sf::View& hudView, const GameAssets& assets, int emeraldCount) {

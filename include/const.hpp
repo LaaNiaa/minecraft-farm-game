@@ -30,5 +30,6 @@ enum class CropState {
 
 enum class CropType {
     NONE,
-    WHEAT
+    WHEAT,
+    CARROT
 };

@@ -40,6 +40,7 @@ void Game::createNewGame() {
     world.createNewGame(assets.blockTextures());
     inventory.reset();
     inventory.addItem(2, 10);
+    inventory.addItem(3, 2);
     emeraldCount = 0;
 }
 
@@ -140,20 +141,24 @@ void Game::processEvents() {
                         return;
                     }
 
-                    if (world.plant(inventory.selectedItem(), assets.wheat(0))) {
+                    if (world.plant(inventory.selectedItem(), assets)) {
                         inventory.clearSelectionIfEmpty();
                         autosave.updateSnapshotAndMarkDirty(world.getFields(), inventory.items(), emeraldCount);
                     }
 
                     const HarvestRewards rewards = world.harvest();
-                    emeraldCount += rewards.emeralds;
-                    if (rewards.wheat > 0) {
-                        inventory.addItem(1, rewards.wheat);
+
+                    if (rewards.emeralds > 0 || !rewards.droppedItems.empty()) {
+                        emeraldCount += rewards.emeralds;
+
+                        for (const auto& item : rewards.droppedItems) {
+                            int itemID = item.first;
+                            int amount = item.second;
+                            inventory.addItem(itemID, amount);
+                        }
+
+                        autosave.updateSnapshotAndMarkDirty(world.getFields(), inventory.items(), emeraldCount);
                     }
-                    if (rewards.seeds > 0) {
-                        inventory.addItem(2, rewards.seeds);
-                    }
-                    autosave.updateSnapshotAndMarkDirty(world.getFields(), inventory.items(), emeraldCount);
                 }
 
                 const sf::Vector2f focused = world.focusedField();

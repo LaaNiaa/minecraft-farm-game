@@ -56,8 +56,9 @@ struct EnumTraits<CropState> {
 
 template <>
 struct EnumTraits<CropType> {
-    static constexpr std::array<std::pair<CropType, std::string_view>, 2> mapping = {{
+    static constexpr std::array<std::pair<CropType, std::string_view>, 3> mapping = {{
         {CropType::NONE, "NONE"},
-        {CropType::WHEAT, "WHEAT"}
+        {CropType::WHEAT, "WHEAT"},
+        {CropType::CARROT, "CARROT"}
     }};
 };

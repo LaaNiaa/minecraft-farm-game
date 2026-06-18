@@ -24,7 +24,7 @@ bool GameAssets::loadAll() {
     const std::string cropsRootDirectory = "../../textures/crops";
 
     int loadedWheatPhases = 0;
-    // int loadedPotatoPhases = 0;
+    int loadedCarrotPhases = 0;
 
     try {
         if (std::filesystem::exists(cropsRootDirectory)) {
@@ -44,9 +44,15 @@ bool GameAssets::loadAll() {
                         if (age >= 0 && age < static_cast<int>(wheatTextures.size())) {
                             if (loadTexture(wheatTextures[age], entry.path().string(), "Wheat_Age_" + std::to_string(age))) {
                                 loadedWheatPhases++;
-                            } else {
-                                success = false;
-                            }
+                            } else { success = false; }
+                        }
+                    }
+                    else if (cropName == "carrot") {
+                        if (age >= 0 && age < static_cast<int>(carrotTextures.size())) {
+                            if (loadTexture(carrotTextures[age], entry.path().string(), "Carrots_Age_" + std::to_string(age))) {
+                                std::cout << loadedCarrotPhases << std::endl;
+                                loadedCarrotPhases++;
+                            } else { success = false; }
                         }
                     }
                     /*
@@ -77,8 +83,10 @@ bool GameAssets::loadAll() {
     success &= loadTexture(chestTexture, "../../textures/hud/Chest.png", "Chest");
     success &= loadTexture(inventoryTexture, "../../textures/hud/Inventory.png", "Inventory");
     success &= loadTexture(hotbarTexture, "../../textures/hud/Hotbar.png", "Hotbar");
+
     success &= loadTexture(wheatItemTexture, "../../textures/items/Wheat_Item.png", "Wheat_Item");
     success &= loadTexture(wheatSeedsItemTexture, "../../textures/items/Wheat_Seeds_Item.png", "Wheat_Seeds_Item");
+    success &= loadTexture(carrotItemTexture, "../../textures/items/Carrot_Item.png", "Carrot_Item");
 
     if (!font.openFromFile("../../textures/font/Minecraft.ttf")) {
         std::cerr << "Failed to load font" << std::endl;
@@ -103,4 +111,15 @@ const sf::Texture& GameAssets::wheat(int age) const {
         return wheatTextures[7];
     }
     return wheatTextures[age];
+}
+
+const sf::Texture& GameAssets::carrot(int logicalAge) const {
+    int visualAge = 0;
+
+    if (logicalAge <= 1) visualAge = 0;
+    else if (logicalAge <= 3) visualAge = 1;
+    else if (logicalAge <= 6) visualAge = 2;
+    else visualAge = 3;
+
+    return carrotTextures[visualAge];
 }

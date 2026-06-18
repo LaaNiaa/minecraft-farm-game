@@ -60,8 +60,12 @@ void FarmWorld::applyTextures(const GameAssets& assets) {
                     break;
             }
 
-            if (fields[y][x].getCropType() == CropType::WHEAT && fields[y][x].getCropState() != CropState::EMPTY) {
+            CropType cType = fields[y][x].getCropType();
+            if (cType == CropType::WHEAT && fields[y][x].getCropState() != CropState::EMPTY) {
                 fields[y][x].setPlantTexture(assets.wheat(fields[y][x].cropAge));
+            }
+            else if (cType == CropType::CARROT && fields[y][x].getCropState() != CropState::EMPTY) {
+                fields[y][x].setPlantTexture(assets.carrot(fields[y][x].cropAge));
             }
         }
     }
@@ -128,27 +132,28 @@ bool FarmWorld::hasFocusedField() const {
     return !(focusedFieldCoords.x < 0 || focusedFieldCoords.y < 0);
 }
 
-bool FarmWorld::plant(InventoryItem* selectedItem, const sf::Texture& wheatSeedTexture) {
-    if (!hasFocusedField() || selectedItem == nullptr || selectedItem->id != 2) {
-        return false;
-    }
+bool FarmWorld::plant(InventoryItem* selectedItem, const GameAssets& assets) {
+    if (!hasFocusedField() || selectedItem == nullptr) return false;
+
+    CropType typeToPlant = CropType::NONE;
+    if (selectedItem->id == 2) typeToPlant = CropType::WHEAT;
+    else if (selectedItem->id == 3) typeToPlant = CropType::CARROT;
+
+    if (typeToPlant == CropType::NONE) return false;
 
     Field& field = fields[static_cast<int>(focusedFieldCoords.x)][static_cast<int>(focusedFieldCoords.y)];
-    if (field.getBlockType() != BlockType::FARMLAND_DRY && field.getBlockType() != BlockType::FARMLAND_WET) {
-        return false;
-    }
-    if (field.getCropState() != CropState::EMPTY) {
-        return false;
-    }
+    if (field.getBlockType() != BlockType::FARMLAND_DRY && field.getBlockType() != BlockType::FARMLAND_WET) return false;
+    if (field.getCropState() != CropState::EMPTY) return false;
 
-    field.setCropType(CropType::WHEAT);
+    field.setCropType(typeToPlant);
     field.setCropState(CropState::SEED);
-    field.setPlantTexture(wheatSeedTexture);
     field.cropAge = 0;
+
+    if (typeToPlant == CropType::WHEAT) field.setPlantTexture(assets.wheat(0));
+    if (typeToPlant == CropType::CARROT) field.setPlantTexture(assets.carrot(0));
+
     selectedItem->amount -= 1;
-    if (selectedItem->amount < 0) {
-        selectedItem->amount = 0;
-    }
+    if (selectedItem->amount < 0) selectedItem->amount = 0;
     return true;
 }
 
@@ -166,13 +171,22 @@ HarvestRewards FarmWorld::harvest() {
         return rewards;
     }
 
+    CropType harvestedType = field.getCropType();
+
     field.setCropType(CropType::NONE);
     field.setCropState(CropState::EMPTY);
     field.cropAge = 0;
 
     rewards.emeralds = 1;
-    rewards.wheat = 1;
-    rewards.seeds = rand() % 2 + 1;
+
+    if (harvestedType == CropType::WHEAT) {
+        rewards.droppedItems.push_back({1, 1});
+        rewards.droppedItems.push_back({2, rand() % 2 + 1});
+    }
+    else if (harvestedType == CropType::CARROT) {
+        rewards.droppedItems.push_back({3, rand() % 4 + 2});
+    }
+
     std::cout << focusedFieldCoords.x << ", " << focusedFieldCoords.y << " - harvested!" << std::endl;
     return rewards;
 }
@@ -241,7 +255,13 @@ void FarmWorld::plantGrowth(const GameAssets& assets) {
 
             if (fields[y][x].cropAge < 7) {
                 fields[y][x].cropAge++;
-                fields[y][x].setPlantTexture(assets.wheat(fields[y][x].cropAge));
+
+                if (fields[y][x].getCropType() == CropType::WHEAT) {
+                    fields[y][x].setPlantTexture(assets.wheat(fields[y][x].cropAge));
+                }
+                else if (fields[y][x].getCropType() == CropType::CARROT) {
+                    fields[y][x].setPlantTexture(assets.carrot(fields[y][x].cropAge));
+                }
             }
 
             if (fields[y][x].cropAge >= 7) {
