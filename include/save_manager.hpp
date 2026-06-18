@@ -7,6 +7,7 @@
 #include <nlohmann/json.hpp>
 #include "const.hpp"
 #include "field.hpp"
+#include "enum_utils.hpp"
 
 using json = nlohmann::json;
 
@@ -47,12 +48,4 @@ class SaveManager {
 
     private:
         static bool ensureParentDirectoryExists(const std::filesystem::path& filePath);
-
-        static std::string blockTypeToString(BlockType type);
-        static std::string cropStateToString(CropState state);
-        static std::string cropTypeToString(CropType type);
-
-        static BlockType stringToBlockType(const std::string& str);
-        static CropState stringToCropState(const std::string& str);
-        static CropType stringToCropType(const std::string& str);
 };

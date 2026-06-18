@@ -106,9 +106,9 @@ bool SaveManager::saveGame(const std::vector<std::vector<Field>>& fields, const 
 
                 fieldData["x"] = x;
                 fieldData["y"] = y;
-                fieldData["blockType"] = blockTypeToString(fields[y][x].getBlockType());
-                fieldData["cropState"] = cropStateToString(fields[y][x].getCropState());
-                fieldData["cropType"] = cropTypeToString(fields[y][x].getCropType());
+                fieldData["blockType"] = enumToString(fields[y][x].getBlockType());
+                fieldData["cropState"] = enumToString(fields[y][x].getCropState());
+                fieldData["cropType"] = enumToString(fields[y][x].getCropType());
                 fieldData["cropAge"] = fields[y][x].cropAge;
 
                 if (fields[y][x].getBlockType() != BlockType::NONE) {
@@ -198,9 +198,9 @@ bool SaveManager::loadGame(std::vector<std::vector<Field>>& fields, const std::s
                 int y = fieldData["y"];
 
                 if (x >= 0 && x < GRID_WIDTH && y >= 0 && y < GRID_HEIGHT) {
-                    BlockType blockType = stringToBlockType(fieldData["blockType"]);
-                    CropState cropState = stringToCropState(fieldData["cropState"]);
-                    CropType cropType = stringToCropType(fieldData["cropType"]);
+                    BlockType blockType = enumFromString<BlockType>(fieldData["blockType"].get<std::string>()).value_or(BlockType::NONE);
+                    CropState cropState = enumFromString<CropState>(fieldData["cropState"].get<std::string>()).value_or(CropState::EMPTY);
+                    CropType cropType = enumFromString<CropType>(fieldData["cropType"].get<std::string>()).value_or(CropType::NONE);
                     int cropAge = fieldData["cropAge"];
 
                     fields[y][x].setBlockType(blockType);
@@ -248,9 +248,9 @@ bool SaveManager::saveSnapshot(const GameSnapshot& snapshot, const std::string& 
                 json fieldData;
                 fieldData["x"] = x;
                 fieldData["y"] = y;
-                fieldData["blockType"] = blockTypeToString(snapshot.fields[y][x].blockType);
-                fieldData["cropState"] = cropStateToString(snapshot.fields[y][x].cropState);
-                fieldData["cropType"] = cropTypeToString(snapshot.fields[y][x].cropType);
+                fieldData["blockType"] = std::string(enumToString(snapshot.fields[y][x].blockType));
+                fieldData["cropState"] = std::string(enumToString(snapshot.fields[y][x].cropState));
+                fieldData["cropType"]  = std::string(enumToString(snapshot.fields[y][x].cropType));
                 fieldData["cropAge"] = snapshot.fields[y][x].cropAge;
 
                 if (snapshot.fields[y][x].blockType != BlockType::NONE) {
@@ -269,53 +269,4 @@ bool SaveManager::saveSnapshot(const GameSnapshot& snapshot, const std::string& 
         std::cerr << "Error saving snapshot: " << e.what() << std::endl;
         return false;
     }
-}
-
-std::string SaveManager::blockTypeToString(BlockType type) {
-    switch (type) {
-        case BlockType::NONE: return "none";
-        case BlockType::GRASS_BLOCK: return "grass_block";
-        case BlockType::DIRT: return "dirt";
-        case BlockType::FARMLAND_DRY: return "farmland_dry";
-        case BlockType::FARMLAND_WET: return "farmland_wet";
-        case BlockType::WATER: return "water";
-        default: return "none";
-    }
-}
-
-std::string SaveManager::cropStateToString(CropState state) {
-    switch (state) {
-        case CropState::EMPTY: return "empty";
-        case CropState::SEED: return "seed";
-        case CropState::GROWN: return "grown";
-        default: return "empty";
-    }
-}
-
-std::string SaveManager::cropTypeToString(CropType type) {
-    switch (type) {
-        case CropType::NONE: return "none";
-        case CropType::WHEAT: return "wheat";
-        default: return "none";
-    }
-}
-
-BlockType SaveManager::stringToBlockType(const std::string& str) {
-    if (str == "grass_block") return BlockType::GRASS_BLOCK;
-    if (str == "dirt") return BlockType::DIRT;
-    if (str == "farmland_dry") return BlockType::FARMLAND_DRY;
-    if (str == "farmland_wet") return BlockType::FARMLAND_WET;
-    if (str == "water") return BlockType::WATER;
-    return BlockType::NONE;
-}
-
-CropState SaveManager::stringToCropState(const std::string& str) {
-    if (str == "seed") return CropState::SEED;
-    if (str == "grown") return CropState::GROWN;
-    return CropState::EMPTY;
-}
-
-CropType SaveManager::stringToCropType(const std::string& str) {
-    if (str == "wheat") return CropType::WHEAT;
-    return CropType::NONE;
 }
