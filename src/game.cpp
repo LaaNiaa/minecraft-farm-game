@@ -27,11 +27,6 @@ Game::Game()
     }
 }
 
-void Game::saveGame() {
-    SaveManager::saveGame(world.getFields(), saveFilePath, emeraldCount, inventory.items());
-    std::cout << "GAME SAVED" << std::endl;
-}
-
 bool Game::loadGame() {
     bool success = SaveManager::loadGame(world.getFields(), saveFilePath, emeraldCount, inventory.items());
     if (success) {

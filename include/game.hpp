@@ -36,7 +36,6 @@ class Game {
         InventoryManager inventory;
         AutosaveManager autosave;
 
-        void saveGame();
         bool loadGame();
         void createNewGame();
 

@@ -37,8 +37,6 @@ struct GameSnapshot {
 
 class SaveManager {
     public:
-        static bool saveGame(const std::vector<std::vector<Field>>& fields, const std::string& filename, int emeraldCount, std::array<InventoryItem, 27>& inventoryItems);
-
         static bool loadGame(std::vector<std::vector<Field>>& fields, const std::string& filename, int& emeraldCount, std::array<InventoryItem, 27>& inventoryItems);
 
         static bool saveSnapshot(const GameSnapshot& snapshot, const std::string& filename);
