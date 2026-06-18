@@ -50,14 +50,15 @@ InventoryItem* InventoryManager::selectedItem() {
 }
 
 void InventoryManager::clearSelectionIfEmpty() {
-    InventoryItem* item = selectedItem();
-    if (item == nullptr) {
+    if (selectedItemIndex < 0 || selectedItemIndex >= static_cast<int>(inventoryItems.size())) {
         selectedItemIndex = -1;
         return;
     }
-    if (item->amount <= 0) {
-        item->id = 0;
-        item->amount = 0;
+
+    InventoryItem& item = inventoryItems[selectedItemIndex];
+    if (item.id == 0 || item.amount <= 0) {
+        item.id = 0;
+        item.amount = 0;
         selectedItemIndex = -1;
     }
 }

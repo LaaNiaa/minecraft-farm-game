@@ -49,7 +49,7 @@ bool GameAssets::loadAll() {
                     }
                     else if (cropName == "carrot") {
                         if (age >= 0 && age < static_cast<int>(carrotTextures.size())) {
-                            if (loadTexture(carrotTextures[age], entry.path().string(), "Carrots_Age_" + std::to_string(age))) {
+                            if (loadTexture(carrotTextures[age], entry.path().string(), "Carrot_Age_" + std::to_string(age))) {
                                 std::cout << loadedCarrotPhases << std::endl;
                                 loadedCarrotPhases++;
                             } else { success = false; }
