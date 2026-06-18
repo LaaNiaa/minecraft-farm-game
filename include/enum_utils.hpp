@@ -5,20 +5,14 @@
 #include <array>
 #include <type_traits>
 
-// Załóżmy, że tutaj są zdefiniowane BlockType, CropState i CropType
-#include "field.hpp" 
-
-// 1. Deklaracja głównego szablonu (bez definicji)
 template <typename T>
 struct EnumTraits;
 
-// 2. Concept: Wymaga, aby T było enumem i posiadało statyczne pole `mapping`
 template <typename T>
 concept MappableEnum = std::is_enum_v<T> && requires {
     { EnumTraits<T>::mapping };
 };
 
-// 3. Generyczna funkcja do rzutowania Enum -> String
 template <MappableEnum T>
 constexpr std::string_view enumToString(T value) {
     for (const auto& [enumVal, strVal] : EnumTraits<T>::mapping) {
@@ -29,7 +23,6 @@ constexpr std::string_view enumToString(T value) {
     return "UNKNOWN";
 }
 
-// 4. Generyczna funkcja do rzutowania String -> Enum
 template <MappableEnum T>
 constexpr std::optional<T> enumFromString(std::string_view str) {
     for (const auto& [enumVal, strVal] : EnumTraits<T>::mapping) {
@@ -39,10 +32,6 @@ constexpr std::optional<T> enumFromString(std::string_view str) {
     }
     return std::nullopt;
 }
-
-// ============================================================================
-// SPECJALIZACJE TRAITS (Tutaj dodajesz nowe enumy)
-// ============================================================================
 
 template <>
 struct EnumTraits<BlockType> {
