@@ -5,4 +5,5 @@ out
 .idea
 .vs
 .vscode
-saves
+saves/*
+!saves/.gitkeep
