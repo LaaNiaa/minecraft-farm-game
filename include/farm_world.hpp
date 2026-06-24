@@ -26,6 +26,7 @@ public:
     sf::Vector2f focusedField() const { return focusedFieldCoords; }
 
     bool plant(InventoryItem* selectedItem, const GameAssets& assets);
+    bool till(InventoryItem* selectedItem, const GameAssets& assets);
     HarvestRewards harvest();
 
     void tick(const GameAssets& assets);

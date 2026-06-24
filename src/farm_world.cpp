@@ -142,6 +142,7 @@ bool FarmWorld::plant(InventoryItem* selectedItem, const GameAssets& assets) {
     if (typeToPlant == CropType::NONE) return false;
 
     Field& field = fields[static_cast<int>(focusedFieldCoords.x)][static_cast<int>(focusedFieldCoords.y)];
+
     if (field.getBlockType() != BlockType::FARMLAND_DRY && field.getBlockType() != BlockType::FARMLAND_WET) return false;
     if (field.getCropState() != CropState::EMPTY) return false;
 
@@ -154,6 +155,21 @@ bool FarmWorld::plant(InventoryItem* selectedItem, const GameAssets& assets) {
 
     selectedItem->amount -= 1;
     if (selectedItem->amount < 0) selectedItem->amount = 0;
+    return true;
+}
+
+bool FarmWorld::till(InventoryItem* selectedItem, const GameAssets& assets) {
+    if (!hasFocusedField() || selectedItem == nullptr) return false;
+    if (selectedItem->id != 1) return false;
+
+    Field& field = fields[static_cast<int>(focusedFieldCoords.x)][static_cast<int>(focusedFieldCoords.y)];
+
+    if (field.getBlockType() != BlockType::DIRT && field.getBlockType() != BlockType::GRASS_BLOCK) return false;
+
+    field.setBlockType(BlockType::FARMLAND_DRY);
+
+    field.setTexture(assets.farmlandDry());
+
     return true;
 }
 

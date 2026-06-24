@@ -147,6 +147,10 @@ void Game::processEvents() {
                         autosave.updateSnapshotAndMarkDirty(world.getFields(), inventory.items(), emeraldCount);
                     }
 
+                    if (world.till(inventory.selectedItem(), assets)) {
+                        autosave.updateSnapshotAndMarkDirty(world.getFields(), inventory.items(), emeraldCount);
+                    }
+
                     const HarvestRewards rewards = world.harvest();
 
                     if (rewards.emeralds > 0 || !rewards.droppedItems.empty()) {
