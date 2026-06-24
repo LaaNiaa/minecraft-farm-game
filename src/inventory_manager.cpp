@@ -133,18 +133,20 @@ void InventoryManager::renderHud(sf::RenderWindow& window, const sf::View& hudVi
     selectedItemSprite.setScale(sf::Vector2f(selectedItemScale, selectedItemScale));
     window.draw(selectedItemSprite);
 
-    sf::Text selectedItemCountText(assets.gameFont(), std::to_string(selected->amount), 32);
-    selectedItemCountText.setFillColor(sf::Color::White);
-    selectedItemCountText.setOutlineColor(sf::Color::Black);
-    selectedItemCountText.setOutlineThickness(2.0f);
-    if (selected->amount > 9) {
-        selectedItemCountText.setPosition(sf::Vector2f(hudView.getSize().x - hotbarSize - margin + (4.0f * hotbarScaleX) + 32.0f,
-                                                       hudView.getSize().y - hotbarSize - margin + (4.0f * hotbarScaleX) + 32.0f));
-    } else if (selected->amount > 0) {
-        selectedItemCountText.setPosition(sf::Vector2f(hudView.getSize().x - hotbarSize - margin + (4.0f * hotbarScaleX) + 48.0f,
-                                                       hudView.getSize().y - hotbarSize - margin + (4.0f * hotbarScaleX) + 32.0f));
+    if (selectedItem()->id != 1) {
+        sf::Text selectedItemCountText(assets.gameFont(), std::to_string(selected->amount), 32);
+        selectedItemCountText.setFillColor(sf::Color::White);
+        selectedItemCountText.setOutlineColor(sf::Color::Black);
+        selectedItemCountText.setOutlineThickness(2.0f);
+        if (selected->amount > 9) {
+            selectedItemCountText.setPosition(sf::Vector2f(hudView.getSize().x - hotbarSize - margin + (4.0f * hotbarScaleX) + 32.0f,
+                                                           hudView.getSize().y - hotbarSize - margin + (4.0f * hotbarScaleX) + 32.0f));
+        } else if (selected->amount > 0) {
+            selectedItemCountText.setPosition(sf::Vector2f(hudView.getSize().x - hotbarSize - margin + (4.0f * hotbarScaleX) + 48.0f,
+                                                           hudView.getSize().y - hotbarSize - margin + (4.0f * hotbarScaleX) + 32.0f));
+        }
+        window.draw(selectedItemCountText);
     }
-    window.draw(selectedItemCountText);
 }
 
 void InventoryManager::renderInventory(sf::RenderWindow& window, const sf::View& hudView, const GameAssets& assets) {
@@ -176,20 +178,22 @@ void InventoryManager::renderInventory(sf::RenderWindow& window, const sf::View&
                 window.draw(itemSprite);
             }
 
-            if (inventoryItems[slotIndex].amount > 0) {
-                sf::Text itemCountText(assets.gameFont(), std::to_string(inventoryItems[slotIndex].amount), 32);
-                itemCountText.setFillColor(sf::Color::White);
-                itemCountText.setOutlineColor(sf::Color::Black);
-                itemCountText.setOutlineThickness(2.0f);
+            if (inventoryItems[slotIndex].id != 1) {
+                if (inventoryItems[slotIndex].amount > 0) {
+                    sf::Text itemCountText(assets.gameFont(), std::to_string(inventoryItems[slotIndex].amount), 32);
+                    itemCountText.setFillColor(sf::Color::White);
+                    itemCountText.setOutlineColor(sf::Color::Black);
+                    itemCountText.setOutlineThickness(2.0f);
 
-                if (inventoryItems[slotIndex].amount > 9) {
-                    itemCountText.setPosition(sf::Vector2f(slotX + (InventorySlotSize * inventoryScale) - 32.0f - ((InventorySpacing * inventoryScale) / 2.0f),
-                                                           slotY + (InventorySlotSize * inventoryScale) - 32.0f - ((InventorySpacing * inventoryScale) / 2.0f)));
-                } else {
-                    itemCountText.setPosition(sf::Vector2f(slotX + (InventorySlotSize * inventoryScale) - 16.0f - ((InventorySpacing * inventoryScale) / 2.0f),
-                                                           slotY + (InventorySlotSize * inventoryScale) - 32.0f - ((InventorySpacing * inventoryScale) / 2.0f)));
+                    if (inventoryItems[slotIndex].amount > 9) {
+                        itemCountText.setPosition(sf::Vector2f(slotX + (InventorySlotSize * inventoryScale) - 32.0f - ((InventorySpacing * inventoryScale) / 2.0f),
+                                                               slotY + (InventorySlotSize * inventoryScale) - 32.0f - ((InventorySpacing * inventoryScale) / 2.0f)));
+                    } else {
+                        itemCountText.setPosition(sf::Vector2f(slotX + (InventorySlotSize * inventoryScale) - 16.0f - ((InventorySpacing * inventoryScale) / 2.0f),
+                                                               slotY + (InventorySlotSize * inventoryScale) - 32.0f - ((InventorySpacing * inventoryScale) / 2.0f)));
+                    }
+                    window.draw(itemCountText);
                 }
-                window.draw(itemCountText);
             }
 
             slotIndex++;
