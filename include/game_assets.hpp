@@ -24,6 +24,7 @@ public:
     const sf::Texture& inventory() const { return inventoryTexture; }
     const sf::Texture& hotbar() const { return hotbarTexture; }
 
+    const sf::Texture& ironHoe() const { return ironHoeTexture; }
     const sf::Texture& wheatItem() const { return wheatItemTexture; }
     const sf::Texture& wheatSeedsItem() const { return wheatSeedsItemTexture; }
     const sf::Texture& carrotItem() const { return carrotItemTexture; }
@@ -49,6 +50,7 @@ private:
     sf::Texture inventoryTexture;
     sf::Texture hotbarTexture;
 
+    sf::Texture ironHoeTexture;
     sf::Texture wheatItemTexture;
     sf::Texture wheatSeedsItemTexture;
     sf::Texture carrotItemTexture;

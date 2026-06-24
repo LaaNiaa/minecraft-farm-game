@@ -84,6 +84,7 @@ bool GameAssets::loadAll() {
     success &= loadTexture(inventoryTexture, "../../textures/hud/Inventory.png", "Inventory");
     success &= loadTexture(hotbarTexture, "../../textures/hud/Hotbar.png", "Hotbar");
 
+    success &= loadTexture(ironHoeTexture, "../../textures/items/Iron_Hoe.png", "Iron_Hoe");
     success &= loadTexture(wheatItemTexture, "../../textures/items/Wheat_Item.png", "Wheat_Item");
     success &= loadTexture(wheatSeedsItemTexture, "../../textures/items/Wheat_Seeds_Item.png", "Wheat_Seeds_Item");
     success &= loadTexture(carrotItemTexture, "../../textures/items/Carrot_Item.png", "Carrot_Item");

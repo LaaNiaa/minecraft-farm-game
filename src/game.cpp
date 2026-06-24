@@ -39,8 +39,9 @@ bool Game::loadGame() {
 void Game::createNewGame() {
     world.createNewGame(assets.blockTextures());
     inventory.reset();
-    inventory.addItem(2, 10);
-    inventory.addItem(3, 2);
+    inventory.addItem(1, 1);
+    inventory.addItem(3, 10);
+    inventory.addItem(4, 2);
     emeraldCount = 0;
 }
 

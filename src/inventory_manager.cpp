@@ -65,12 +65,15 @@ void InventoryManager::clearSelectionIfEmpty() {
 
 const sf::Texture& InventoryManager::textureForItem(const GameAssets& assets, int itemId) const {
     if (itemId == 1) {
-        return assets.wheatItem();
+        return assets.ironHoe();
     }
     if (itemId == 2) {
-        return assets.wheatSeedsItem();
+        return assets.wheatItem();
     }
     if (itemId == 3) {
+        return assets.wheatSeedsItem();
+    }
+    if (itemId == 4) {
         return assets.carrotItem();
     }
 

@@ -136,8 +136,8 @@ bool FarmWorld::plant(InventoryItem* selectedItem, const GameAssets& assets) {
     if (!hasFocusedField() || selectedItem == nullptr) return false;
 
     CropType typeToPlant = CropType::NONE;
-    if (selectedItem->id == 2) typeToPlant = CropType::WHEAT;
-    else if (selectedItem->id == 3) typeToPlant = CropType::CARROT;
+    if (selectedItem->id == 3) typeToPlant = CropType::WHEAT;
+    else if (selectedItem->id == 4) typeToPlant = CropType::CARROT;
 
     if (typeToPlant == CropType::NONE) return false;
 
@@ -180,11 +180,11 @@ HarvestRewards FarmWorld::harvest() {
     rewards.emeralds = 1;
 
     if (harvestedType == CropType::WHEAT) {
-        rewards.droppedItems.push_back({1, 1});
-        rewards.droppedItems.push_back({2, rand() % 2 + 1});
+        rewards.droppedItems.push_back({2, 1});
+        rewards.droppedItems.push_back({3, rand() % 2 + 1});
     }
     else if (harvestedType == CropType::CARROT) {
-        rewards.droppedItems.push_back({3, rand() % 4 + 2});
+        rewards.droppedItems.push_back({4, rand() % 4 + 2});
     }
 
     std::cout << focusedFieldCoords.x << ", " << focusedFieldCoords.y << " - harvested!" << std::endl;
