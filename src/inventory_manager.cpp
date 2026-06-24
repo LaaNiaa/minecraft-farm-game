@@ -74,6 +74,9 @@ const sf::Texture& InventoryManager::textureForItem(const GameAssets& assets, in
         return assets.carrotItem();
     }
 
+    else {
+        return assets.emerald();
+    }
 }
 
 void InventoryManager::renderHud(sf::RenderWindow& window, const sf::View& hudView, const GameAssets& assets, int emeraldCount) {
