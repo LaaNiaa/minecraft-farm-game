@@ -147,8 +147,11 @@ void Game::processEvents() {
                         autosave.updateSnapshotAndMarkDirty(world.getFields(), inventory.items(), emeraldCount);
                     }
 
-                    if (world.till(inventory.selectedItem(), assets)) {
-                        autosave.updateSnapshotAndMarkDirty(world.getFields(), inventory.items(), emeraldCount);
+                    if (emeraldCount >= 3) {
+                        if (world.till(inventory.selectedItem(), assets)) {
+                            emeraldCount -= 3;
+                            autosave.updateSnapshotAndMarkDirty(world.getFields(), inventory.items(), emeraldCount);
+                        }
                     }
 
                     const HarvestRewards rewards = world.harvest();
