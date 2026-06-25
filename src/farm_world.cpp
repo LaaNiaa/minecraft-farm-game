@@ -167,7 +167,6 @@ bool FarmWorld::till(InventoryItem* selectedItem, const GameAssets& assets) {
     if (field.getBlockType() != BlockType::DIRT && field.getBlockType() != BlockType::GRASS_BLOCK) return false;
 
     field.setBlockType(BlockType::FARMLAND_DRY);
-
     field.setTexture(assets.farmlandDry());
 
     return true;

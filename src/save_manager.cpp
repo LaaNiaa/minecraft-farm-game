@@ -125,6 +125,7 @@ bool SaveManager::loadGame(std::vector<std::vector<Field>>& fields, const std::s
                 fields[y][x].setCropState(CropState::EMPTY);
                 fields[y][x].setCropType(CropType::NONE);
                 fields[y][x].cropAge = 0;
+                fields[y][x].isFocused = false;
             }
         }
 

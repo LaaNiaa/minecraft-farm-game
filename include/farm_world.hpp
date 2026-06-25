@@ -34,7 +34,6 @@ public:
     void renderFocus(sf::RenderWindow& window);
 
     std::vector<std::vector<Field>>& getFields() { return fields; }
-    const std::vector<std::vector<Field>>& getFields() const { return fields; }
 
 private:
     void updateFieldPositions();
